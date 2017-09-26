@@ -1,0 +1,4 @@
+env/
+notes/
+*.pyc
+test_data.csv

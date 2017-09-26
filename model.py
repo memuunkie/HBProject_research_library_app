@@ -7,28 +7,32 @@ db = SQLAlchemy()
 
 ####################################################################
 
-# class TypeUser(db.Model):
-#     """Types of users system can accept"""
+class TypeUser(db.Model):
+    """Types of users system can accept"""
 
-#     __tablename__ = 'types'
+    __tablename__ = 'types'
 
-#     type_id = db.Column(db.Integer,autoincrement=True,
-#                         primary_key=True)
-#     type_name = db.Column(db.String(30), nullable=False)
+    type_id = db.Column(db.Integer,autoincrement=True,
+                        primary_key=True)
+    type_name = db.Column(db.String(30), nullable=False)
+    description = db.Column(db.String(50), nullable=True)
 
 
-# class User(db.Model):
-#     """User model for both patrons and admins"""
+class User(db.Model):
+    """User model for both patrons and admins"""
 
-#     __tablename__ = 'users'
+    __tablename__ = 'users'
 
-#     user_id = db.Column(db.Integer, autoincrement=True, 
-#                         primary_key=True)
-#     fname = db.Column(db.String(50), nullable=False)
-#     lname = db.Column(db.String(50), nullable=False)
-#     create_date = db.Column(db.DateTime, nullable=False)
-#     checkin_date = db.Column(db.DateTime, nullable=True)
-#     is_admin = db.Column(db.Boolean, nullable=False)
+    user_id = db.Column(db.Integer, autoincrement=True, 
+                        primary_key=True)
+    fname = db.Column(db.String(50), nullable=False)
+    lname = db.Column(db.String(50), nullable=False)
+    create_date = db.Column(db.DateTime, nullable=False)
+    checkin_date = db.Column(db.DateTime, nullable=True)
+    type_id = db.Column(db.String(10), nullable=True)
+    email = db.Column(db.String(30), nullable=False)
+    password = db.Column(db.String(30), nullable=False)
+    # user_type = db.relationship('TypeUser', backref='users')
 
 
 class Book(db.Model):
@@ -47,18 +51,6 @@ class Book(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
         return "<Book book_id=%s call_num=%s>" % (self.book_id, self.call_num)
-
-
-# class Admin(db.Model):
-#     """Admin login info"""
-
-#     __tablename__ = 'admin'
-
-#     admin_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
-#     login_name = db.Column(db.String(30), nullable=False)
-#     admin_pwd = db.Column(db.String(30), nullable=False)
-    # usertype = 
-
 
 
 # class Visit(db.Model):

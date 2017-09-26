@@ -27,6 +27,14 @@ def load_books():
     db.session.commit()
 
 
+def load_users():
+    """Create users in database"""
+
+    User.query.delete()
+
+    seed_data = 
+
+
 if __name__ == "__main__":
     connect_to_db(app)
 

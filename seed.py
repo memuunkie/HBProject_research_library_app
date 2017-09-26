@@ -1,11 +1,13 @@
 from sqlalchemy import func
-from model import Book
+from model import Book, User
 
 from model import connect_to_db, db
 from server import app
 from datetime import datetime
 
 from csv import reader
+import json
+import datetime
 
 def load_books():
     """Create library of books"""
@@ -32,7 +34,18 @@ def load_users():
 
     User.query.delete()
 
-    seed_data = 
+    seed_data = json.loads(open('seed_data/MOCK_DATA.json').read())
+
+    for row in seed_data:
+        user = User(fname=row['fullname']['fname'],
+                    lname=row['fullname']['lname'],
+                    email=row['login']['email'],
+                    password=row['login']['password'],
+                    create_date=datetime.datetime.now()
+                    )
+        db.session.add(user)
+
+    db.session.commit()
 
 
 if __name__ == "__main__":
@@ -43,4 +56,5 @@ if __name__ == "__main__":
 
     # Import different types of data
     load_books()
+    load_users()
     # set_val_user_id()

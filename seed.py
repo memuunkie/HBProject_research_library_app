@@ -12,7 +12,7 @@ def load_books():
 
     Book.query.delete()
 
-    seed_data = reader(open('test_data.csv'))
+    seed_data = reader(open('seed_data/test_data.csv'))
 
     for call_num, author, title, edition, pub_info in seed_data:
         

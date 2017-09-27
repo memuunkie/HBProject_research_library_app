@@ -28,8 +28,7 @@ def load_books():
 
     db.session.commit()
 
-    total = int(db.session.query(Book.book_id).count())
-
+    # total = int(db.session.query(Book.book_id).count())
 
 def load_usertypes():
     """Create table of user types"""
@@ -37,6 +36,7 @@ def load_usertypes():
     TypeUser.query.delete()
 
     for row in open('seed_data/type_users'):
+        row = row.rstrip()
         type_name, description = row.split('|')
 
         new_type = TypeUser(type_name=type_name, description=description)
@@ -54,6 +54,7 @@ def load_users():
     seed_data = json.loads(open('seed_data/MOCK_DATA.json').read())
 
     for row in seed_data:
+
         user = User(fname=row['fullname']['fname'],
                     lname=row['fullname']['lname'],
                     email=row['login']['email'],
@@ -68,12 +69,17 @@ def load_users():
 ##############################################################################
 # Help functions
 
-def count_rows(model_id):
-    """Prints to console a message that records added successfully"""
-
-    total = int(db.session.query(model_id).count())
+def assign_usertype():
+    """Assigns initial user types"""
 
     pass
+
+# def count_rows(model_id):
+#     """Prints to console a message that records added successfully"""
+
+#     total = int(db.session.query(model_id).count())
+
+#     pass
 
 
 if __name__ == "__main__":
@@ -83,5 +89,6 @@ if __name__ == "__main__":
     db.create_all()
 
     # Import different types of data
-    # load_books()
-    # load_users() < ---uncomment to automatically add to database
+    load_books()
+    load_usertypes()
+    load_users()

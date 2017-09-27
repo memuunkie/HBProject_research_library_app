@@ -33,12 +33,12 @@ class User(db.Model):
     lname = db.Column(db.String(50), nullable=False)
     create_date = db.Column(db.DateTime, nullable=False)
     checkin_date = db.Column(db.DateTime, nullable=True)
-    type_id = db.Column(db.String(10), nullable=True)
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
-    user_type = db.Column(db.Integer, db.ForeignKey('types.type_id'))
+    type_id = db.Column(db.Integer, db.ForeignKey('types.type_id'), default=2)
 
-    visit = db.relationship('Visit', backref='users')
+    user_type = db.relationship('TypeUser',
+                                backref=db.backref('types', order_by=user_id))
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -75,7 +75,7 @@ class Visit(db.Model):
     visit_timein = db.Column(db.DateTime, nullable=False)
     visit_timeout = db.Column(db.DateTime, nullable=True)
 
-    user = db.relationship('User', foreign_keys=[user_id])
+    user = db.relationship('User', foreign_keys=[user_id], backref='users')
     admin = db.relationship('User', foreign_keys=[admin_id])
 
 

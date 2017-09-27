@@ -21,6 +21,20 @@ app.secret_key = "ABC"
 app.jinja_env.undefined = StrictUndefined
 
 
+@app.route('/')
+def index():
+    """Home"""
+    return render_template("home.html")
+
+
+@app.route('/library')
+def library_view():
+    """render the librarian view"""
+
+    return render_template('library_view.html')
+
+
+
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension

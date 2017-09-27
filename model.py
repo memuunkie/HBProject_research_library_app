@@ -75,8 +75,10 @@ class Visit(db.Model):
     visit_timein = db.Column(db.DateTime, nullable=False)
     visit_timeout = db.Column(db.DateTime, nullable=True)
 
-    user = db.relationship('User', foreign_keys=[user_id], backref='users')
-    admin = db.relationship('User', foreign_keys=[admin_id])
+    user = db.relationship('User', foreign_keys='Visit.user_id', 
+                            backref=db.backref('user_visit'))
+    admin = db.relationship('User', foreign_keys='Visit.admin_id',
+                            backref=db.backref('admin_visit'))
 
 
 ##############################################################################

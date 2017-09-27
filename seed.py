@@ -69,17 +69,10 @@ def load_users():
 ##############################################################################
 # Help functions
 
-def assign_usertype():
-    """Assigns initial user types"""
-
-    pass
-
 # def count_rows(model_id):
 #     """Prints to console a message that records added successfully"""
 
 #     total = int(db.session.query(model_id).count())
-
-#     pass
 
 
 if __name__ == "__main__":

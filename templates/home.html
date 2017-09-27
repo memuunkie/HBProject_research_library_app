@@ -7,8 +7,23 @@
     <h1>Welcome</h1>
 
     <h3>Please sign in</h3>
+        <form method="GET" action="/">
+            Email:<input type="email" name="email" required>
+            <br>Password:<input type="password" name = "password" required>
+
+            <br><input type="submit" value="Sign In">
+
+
+    <!-- Should pop up when click on link/do not go to new page-->
 
     <h4>If you do not have a sign in, please register here</h4>
+        <form method="GET" action="/">
+            First Name :<input type="text" name="fname" required>
+            <br>Last Name :<input type="text" name="lname" required>
+            <br>Email<input type="email" name="email" required>
 
+            <br><input type="submit" value="Register">
+
+        </form>
 
 {% endblock %}

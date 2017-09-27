@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <h1>Library Check In</h1>
+
+    <br>Today's Date:
+
+    <div>
+        <h3>Today's Patrons</h3>
+        <br>Patron1 --buttons Add Book Return Book Check Out
+        <br>Patron2 --buttons Add Book Return Book Check Out
+        <br>Patron3 --buttons Add Book Return Book Check Out
+        <br> ...new patrons...
+    </div>
+
+    <div>
+        <h3>Add Book</h3>
+        <br>Patron Name
+        <br>Search for:
+        <br>Title
+        <br>Author
+        <br>Call Number
+        <br>Keyword
+    </div>
+
+    <div>
+        <h3>Return Book</h3>
+        <br>Patron Name
+        <br>Book1 --button Return Book
+        <br>Book2 --button Return Book
+        <br>Book3 --button Return Book
+    </div>
+
+    <div>
+        <h3>Patron Check Out</h3>
+        <br>Patron Name
+        <br>"All books returned" --button Check Out
+        <br>"Books still outstanding" --button Return Book
+    </div>
+
+    <div>
+        <h3>Patron Check In</h3>
+        <form>
+            <br>Search for:
+            <br>Email
+            <br>First Name
+            <br>Last Name
+            <br>--button Check In Patron
+        </form>
+    </div>
+
+{% endblock %}

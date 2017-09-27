@@ -16,7 +16,11 @@ class TypeUser(db.Model):
                         primary_key=True)
     type_name = db.Column(db.String(30), nullable=False)
     description = db.Column(db.String(50), nullable=True)
-
+    
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+        return "<TypeUser type_id=%s type_name=%s>" % (self.type_id, 
+                                                       self.type_name)
 
 class User(db.Model):
     """User model for both patrons and admins"""
@@ -32,7 +36,13 @@ class User(db.Model):
     type_id = db.Column(db.String(10), nullable=True)
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
-    # user_type = db.relationship('TypeUser', backref='users')
+    user_type = db.Column(db.Integer, db.ForeignKey('types.type_id'))
+
+    visit = db.relationship('Visit', backref='users')
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+        return "<User user_id=%s type_id=%s>" % (self.user_id, self.type_id)
 
 
 class Book(db.Model):
@@ -53,16 +63,20 @@ class Book(db.Model):
         return "<Book book_id=%s call_num=%s>" % (self.book_id, self.call_num)
 
 
-# class Visit(db.Model):
-#     """Visit model for patron time in and time out"""
+class Visit(db.Model):
+    """Visit model for patron time in and time out"""
 
-#     __tablename__ = 'visits'
+    __tablename__ = 'visits'
 
-#     visit_id = db.Column(db.Integer,autoincrement=True,
-#                          primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
-#     admin_id = db.Column(db.Integer, db.ForeignKey('admin.admin_id'))
+    visit_id = db.Column(db.Integer,autoincrement=True,
+                         primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    admin_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    visit_timein = db.Column(db.DateTime, nullable=False)
+    visit_timeout = db.Column(db.DateTime, nullable=True)
 
+    user = db.relationship('User', foreign_keys=[user_id])
+    admin = db.relationship('User', foreign_keys=[admin_id])
 
 
 ##############################################################################

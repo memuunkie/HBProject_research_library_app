@@ -1,5 +1,5 @@
 from sqlalchemy import func
-from model import Book, User
+from model import Book, User, TypeUser
 
 from model import connect_to_db, db
 from server import app
@@ -28,6 +28,23 @@ def load_books():
 
     db.session.commit()
 
+    total = int(db.session.query(Book.book_id).count())
+
+
+def load_usertypes():
+    """Create table of user types"""
+
+    TypeUser.query.delete()
+
+    for row in open('seed_data/type_users'):
+        type_name, description = row.split('|')
+
+        new_type = TypeUser(type_name=type_name, description=description)
+
+        db.session.add(new_type)
+
+    db.session.commit()
+
 
 def load_users():
     """Create users in database"""
@@ -48,6 +65,17 @@ def load_users():
     db.session.commit()
 
 
+##############################################################################
+# Help functions
+
+def count_rows(model_id):
+    """Prints to console a message that records added successfully"""
+
+    total = int(db.session.query(model_id).count())
+
+    pass
+
+
 if __name__ == "__main__":
     connect_to_db(app)
 
@@ -55,6 +83,5 @@ if __name__ == "__main__":
     db.create_all()
 
     # Import different types of data
-    load_books()
-    load_users()
-    # set_val_user_id()
+    # load_books()
+    # load_users() < ---uncomment to automatically add to database

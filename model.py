@@ -32,7 +32,7 @@ class User(db.Model):
     fname = db.Column(db.String(50), nullable=False)
     lname = db.Column(db.String(50), nullable=False)
     create_date = db.Column(db.DateTime, nullable=False)
-    checkin_date = db.Column(db.DateTime, nullable=True)
+    visit_timein = db.Column(db.DateTime, nullable=True)
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
     type_id = db.Column(db.Integer, db.ForeignKey('types.type_id'), default=2)
@@ -75,10 +75,35 @@ class Visit(db.Model):
     visit_timein = db.Column(db.DateTime, nullable=False)
     visit_timeout = db.Column(db.DateTime, nullable=True)
 
+    #reference visit.user/visit.admin -- admin.admin_visit, user.user_visit
     user = db.relationship('User', foreign_keys='Visit.user_id', 
                             backref=db.backref('user_visit'))
     admin = db.relationship('User', foreign_keys='Visit.admin_id',
                             backref=db.backref('admin_visit'))
+    
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+        return "<Visit visit_id=%s user_id=%s>" % (self.visit_id, self.user_id)
+
+
+class VisitItem(db.Model):
+    """Attach Books to a Visit"""
+
+    __tablename__ = 'visit_items'
+
+    visit_id = db.Column(db.Integer, db.ForeignKey('visits.visit_id'), 
+                        primary_key=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), 
+                        nullable=False)
+    checkout_time = db.Column(db.DateTime, nullable=False)
+    is_returned = db.Column(db.Boolean, nullable=False, default=False)
+
+    book = db.relationship('Book', backref=db.backref('visit_book'))
+    visit = db.relationship('Visit', backref=db.backref('visit_item'))
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+        return "<Item visit_id=%s book_id=%s>" % (self.visit_id, self.book_id)
 
 
 ##############################################################################

@@ -5,9 +5,11 @@
 
     <h1>Library Check In</h1>
 
+    <!-- Display the current date & time -->
     <br>Today's Date:
 
     <div>
+        <!-- List of patrons checked in -->
         <h3>Today's Patrons</h3>
         <br>Patron1 --buttons Add Book Return Book Check Out
         <br>Patron2 --buttons Add Book Return Book Check Out
@@ -16,11 +18,13 @@
     </div>
 
 
-    
     <div>
+        <!-- create a VisitItem -->
+            <!-- Uses visit_id, book_id -->
         <h3>Add Book</h3>
         <br>Patron Name
         <br>Search for:
+        <!-- Queries 'books' table -->
         <br>Title
         <br>Author
         <br>Call Number
@@ -28,7 +32,9 @@
     </div>
 
     <div>
+        <!-- Update an existing VisitItem is_returned value-->
         <h3>Return Book</h3>
+        <!-- Queries VisitItem with matching visit_id to -->
         <br>Patron Name
         <br>Book1 --button Return Book
         <br>Book2 --button Return Book
@@ -38,17 +44,24 @@
     <div>
         <h3>Patron Check Out</h3>
         <br>Patron Name
+        <!-- Check to see if any VisitItems have is_returned == False -->
+            <!-- If false... -->
         <br>"All books returned" --button Check Out
+            <!-- If true... -->
+            <!-- Goes back to Return Book -->
         <br>"Books still outstanding" --button Return Book
     </div>
 
     <div>
+        <!-- Create a Visit -->
         <h3>Patron Check In</h3>
         <form>
             <br>Search for:
+            <!-- Queries 'users' table -->
             <br>Email
             <br>First Name
             <br>Last Name
+            <br> [--display patron info--]
             <br>--button Check In Patron
         </form>
     </div>

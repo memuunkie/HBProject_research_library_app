@@ -6,8 +6,8 @@ from server import app
 from datetime import datetime
 
 from csv import reader
+from datetime import datetime
 import json
-import datetime
 
 def load_books():
     """Create library of books"""
@@ -59,9 +59,15 @@ def load_users():
                     lname=row['fullname']['lname'],
                     email=row['login']['email'],
                     password=row['login']['password'],
-                    create_date=datetime.datetime.now()
+                    create_date=datetime.now()
                     )
         db.session.add(user)
+
+    # create one default admin
+    admin = User(fname='The', lname='Librarian', email='admin@library.com',
+                 password='1234abc', create_date=datetime.now(), type_id=1)
+    
+    db.session.add(admin)
 
     db.session.commit()
 

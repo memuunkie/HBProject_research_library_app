@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <div>
+        <h2>Results</h2>
+            <ul>
+                {% if users %}
+                    {% for user in users %}
+                      <li>
+                          <a href="/users/{{ user.user_id }}">
+                            {{ user.email }} {{ user.fname }} {{ user.lname }}
+                          </a>
+                      </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+    </div>
+
+
+{% endblock %}

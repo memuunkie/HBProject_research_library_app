@@ -35,7 +35,7 @@ def library_view():
     return render_template('library_view.html')
 
 
-@app.route('/search-users.json')
+@app.route('/search-users', methods=['GET'])
 def find_user():
     """Do a search of user and return a list of possible matches"""
 
@@ -52,13 +52,13 @@ def find_user():
     if request.args.get('lname'):
         lname = '%' + request.args.get('lname') + '%'
     else:
-        fname = ''
+        lname = ''
 
-    user_search = User.query.filter(or_(User.email.ilike(email), 
+    users = User.query.filter(or_(User.email.ilike(email), 
                                     User.fname.ilike(fname), 
                                     User.lname.ilike(lname))).all()
 
-    print user_search
+    return render_template('user_results.html', users=users)
 
 
 if __name__ == "__main__":

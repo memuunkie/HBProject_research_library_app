@@ -39,7 +39,25 @@ def library_view():
 def find_book():
     """Do a search on books and return a list of matches"""
 
-    
+    if request.args.get('title'):
+        title = '%' + request.args.get('title') + '%'
+    else:
+        title = ''
+    if request.args.get('author'):
+        author = '%' + request.args.get('author') + '%'
+    else:
+        author = ''
+    if request.args.get('call-number'):
+        call_num = '%' + request.args.get('call-number') + '%'
+    else:
+        call_num = ''
+
+    books = Book.query.filter(or_(Book.title.ilike(title), 
+                                 Book.author.ilike(author),
+                                 Book.call_num.ilike(call_num))).all()
+
+    return render_template('book_results.html', books=books)
+
 
 @app.route('/search-users', methods=['GET'])
 def find_user():

@@ -12,7 +12,7 @@
     <div>
         <!-- Create a Visit -->
         <h3>Patron Search</h3>
-        <form id="user-search" action="/search-users" method='GET'>
+        <form id="user-search" action="/search-users" method="GET">
             <!-- Sends form data as GET -->
             
             <div class="form-group">
@@ -34,14 +34,14 @@
 
     <div>
         <h3>Book Search</h3>
-        <form id="book-search" action="">
+        <form id="book-search" action="/search-books", method="GET">
             <div class="form-group">
                 Search for:
                 <br>Title<input id="search-title" class="form-control" type="text" name="title" placeholder="title">
                 <br>Author<input id="search-author" class="form-control" type="text" name="author" placeholder="author">
                 <br>Call Number<input id="search-callnum" class="form-control" type="text" name='call-number' placeholder="call number">
-                <br>Keyword
-                <input id="add-book" class="btn btn-primary" type="submit" value="Search Books">
+                <!-- <br>Keyword -->
+                <br><input id="add-book" class="btn btn-primary" type="submit" value="Search Books">
                 <!-- <button>test</button> -->
             </div>
     </div>

@@ -3,15 +3,15 @@
 
 {% block content %}
 
-    <h1>Library Check In</h1>
+    <h1>Library View</h1>
 
     <!-- Display the current date & time -->
-    <br>Today's Date:
+    <p>Today's Date:</p>
 
 
     <div>
         <!-- Create a Visit -->
-        <h3>Patron Check In</h3>
+        <h3>Patron Search</h3>
         <form id="user-search" action="/search-users" method='GET'>
             <!-- Sends form data as GET -->
             
@@ -23,12 +23,29 @@
                 <br>Last Name:<input id="search-lname"class="form-control" type="text" name="lname" placeholder="last name">
             </div>
             <div class="form-group">
-                <input id="check-in-patron" class="btn btn-primary" type="submit" value="search for patron">
+                <input id="check-in-patron" class="btn btn-primary" type="submit" value="Search Users">
+                <!-- <button>test</button> -->
             </div>
         </form>
+    </div>
+
 
         <div id="result-user-list"></div>
+
+    <div>
+        <h3>Book Search</h3>
+        <form id="book-search" action="">
+            <div class="form-group">
+                Search for:
+                <br>Title<input id="search-title" class="form-control" type="text" name="title" placeholder="title">
+                <br>Author<input id="search-author" class="form-control" type="text" name="author" placeholder="author">
+                <br>Call Number<input id="search-callnum" class="form-control" type="text" name='call-number' placeholder="call number">
+                <br>Keyword
+                <input id="add-book" class="btn btn-primary" type="submit" value="Search Books">
+                <!-- <button>test</button> -->
+            </div>
     </div>
+
 
 <!--     <div>
         <h3>Today's Patrons</h3>
@@ -40,18 +57,6 @@
             <button class="btn btn-primary"></button>
         <br> ...new patrons...
             <button id="add-patron-visit" class="btn btn-primary">Add Patron to List</button>
-    </div>
-
-
-    <div>
-        <h3>Add Book</h3>
-        <br>Patron Name
-        <br>Search for:
-        <br>Title
-        <br>Author
-        <br>Call Number
-        <br>Keyword
-            <button id="add-book" class="btn btn-primary">Add Book</button>
     </div>
 
     <div>
@@ -72,6 +77,6 @@
             <button class="btn btn-primary"></button>
     </div>
  -->
-
-
+<!-- <script src="http://code.jquery.com/jquery.js"></script>
+<script src="/static/library-functions.js"></script> -->
 {% endblock %}

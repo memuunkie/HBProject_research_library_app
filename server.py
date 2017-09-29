@@ -7,7 +7,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from sqlalchemy import and_, or_
 
-from model import Book, User, connect_to_db, db
+from model import Book, User, Visit
 from model import connect_to_db, db
 
 
@@ -35,6 +35,12 @@ def library_view():
     return render_template('library_view.html')
 
 
+@app.route('/search-books', methods=['GET'])
+def find_book():
+    """Do a search on books and return a list of matches"""
+
+    
+
 @app.route('/search-users', methods=['GET'])
 def find_user():
     """Do a search of user and return a list of possible matches"""
@@ -58,6 +64,17 @@ def find_user():
                                     User.fname.ilike(fname), 
                                     User.lname.ilike(lname))).all()
 
+    user_results = {}
+
+    for user in users:
+        user_results[user.user_id] = {
+        'fname': user.fname,
+        'lname': user.lname,
+        'email': user.email
+        }
+
+    print user_results
+    print jsonify(user_results)
     return render_template('user_results.html', users=users)
 
 

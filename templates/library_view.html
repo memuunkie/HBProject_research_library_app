@@ -8,62 +8,70 @@
     <!-- Display the current date & time -->
     <br>Today's Date:
 
+
     <div>
-        <!-- List of patrons checked in -->
+        <!-- Create a Visit -->
+        <h3>Patron Check In</h3>
+        <form id="user-search" methods>
+            <!-- Sends form data as GET -->
+            
+            <div class="form-group">
+                Search by:
+                <!-- Queries 'users' table -->
+                <br>Email:<input id="search-email" class="form-control" type="text" name="email" placeholder="email">
+                <br>First Name:<input id="search-fname"class="form-control" type="text" name="fname" placeholder="first name">
+                <br>Last Name:<input id="search-lname"class="form-control" type="text" name="lname" placeholder="last name">
+            </div>
+            <div class="form-group">
+                <button id="check-in-patron" class="btn btn-primary">Check In Patron</button>
+            </div>
+        </form>
+
+        <div id="result-user-list"></div>
+    </div>
+
+<!--     <div>
         <h3>Today's Patrons</h3>
-        <br>Patron1 --buttons Add Book Return Book Check Out
-        <br>Patron2 --buttons Add Book Return Book Check Out
-        <br>Patron3 --buttons Add Book Return Book Check Out
+        <br>Patron1 
+        <br>Patron2 
+        <br>Patron3 
+            <button class="btn btn-primary"></button>
+            <button class="btn btn-primary"></button>
+            <button class="btn btn-primary"></button>
         <br> ...new patrons...
+            <button id="add-patron-visit" class="btn btn-primary">Add Patron to List</button>
     </div>
 
 
     <div>
-        <!-- create a VisitItem -->
-            <!-- Uses visit_id, book_id -->
         <h3>Add Book</h3>
         <br>Patron Name
         <br>Search for:
-        <!-- Queries 'books' table -->
         <br>Title
         <br>Author
         <br>Call Number
         <br>Keyword
+            <button id="add-book" class="btn btn-primary">Add Book</button>
     </div>
 
     <div>
-        <!-- Update an existing VisitItem is_returned value-->
         <h3>Return Book</h3>
-        <!-- Queries VisitItem with matching visit_id to -->
         <br>Patron Name
-        <br>Book1 --button Return Book
-        <br>Book2 --button Return Book
-        <br>Book3 --button Return Book
+        <br>Book1 
+        <br>Book2 
+        <br>Book3 
+            <button id="return-book" class="btn btn-primary">Return Book</button>
     </div>
 
     <div>
         <h3>Patron Check Out</h3>
         <br>Patron Name
-        <!-- Check to see if any VisitItems have is_returned == False -->
-            <!-- If false... -->
-        <br>"All books returned" --button Check Out
-            <!-- If true... -->
-            <!-- Goes back to Return Book -->
-        <br>"Books still outstanding" --button Return Book
+        <br>"All books returned"
+            <button id="check-out-patron" class="btn btn-primary">Check Out Patron</button>
+        <br>"Books still outstanding"
+            <button class="btn btn-primary"></button>
     </div>
+ -->
 
-    <div>
-        <!-- Create a Visit -->
-        <h3>Patron Check In</h3>
-        <form>
-            <br>Search for:
-            <!-- Queries 'users' table -->
-            <br>Email
-            <br>First Name
-            <br>Last Name
-            <br> [--display patron info--]
-            <br>--button Check In Patron
-        </form>
-    </div>
 
 {% endblock %}

@@ -4,9 +4,10 @@ from flask import jsonify
 from flask import (Flask, render_template, redirect, request, flash,
                    session, url_for)
 from flask_debugtoolbar import DebugToolbarExtension
-from model import Book, connect_to_db, db
 
+from sqlalchemy import and_, or_
 
+from model import Book, User, connect_to_db, db
 from model import connect_to_db, db
 
 
@@ -33,6 +34,31 @@ def library_view():
 
     return render_template('library_view.html')
 
+
+@app.route('/search-users.json')
+def find_user():
+    """Do a search of user and return a list of possible matches"""
+
+    if request.args.get('email'):
+        email = '%' + request.args.get('email') + '%'
+    else:
+        email = ''
+
+    if request.args.get('fname'):
+        fname = '%' + request.args.get('fname') + '%'
+    else:
+        fname = ''
+
+    if request.args.get('lname'):
+        lname = '%' + request.args.get('lname') + '%'
+    else:
+        fname = ''
+
+    user_search = User.query.filter(or_(User.email.ilike(email), 
+                                    User.fname.ilike(fname), 
+                                    User.lname.ilike(lname))).all()
+
+    print user_search
 
 
 if __name__ == "__main__":

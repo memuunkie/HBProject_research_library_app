@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+    <div>
+        <h2>{{ visit_deets.user.fname}} {{visit_deets.user.lname}} </h2>
+            <ul>
+                {% if visit_items %}
+                    {% for item in visit_items %}
+                      <li>
+                        RETURNED: {{ item.is_returned}} {{ item.book.title}}
+                      </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+    </div>
+
+    <div>
+    <h3>Add a Book</h3>
+      <form id="book-form" action="/add-book", method="POST">
+          <div class="form-group">
+              Book ID:
+              <input id="add-visit-item" class="form-control" type="text" name="book-id" placeholder="book id">
+              <br><input id="add-item-db" class="btn btn-primary" type="submit" value="Add Book">
+              <!-- <button>test</button> -->
+          </div>
+      </form>
+    </div>
+
+
+{% endblock %}

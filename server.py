@@ -7,8 +7,10 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from sqlalchemy import and_, or_
 
-from model import Book, User, Visit
+from model import Book, User, Visit, VisitItem
 from model import connect_to_db, db
+
+from datetime import datetime
 
 
 app = Flask(__name__)
@@ -35,22 +37,52 @@ def library_view():
     return render_template('library_view.html')
 
 
+@app.route('/add-visit', methods=['GET'])
+def visit_form():
+    """Show visit form"""
+
+    return render_template('visit_results.html')
+
+
+@app.route('/add-visit', methods=['POST'])
+def add_visit():
+    """Add a Visit to the database"""
+
+    print "Got to the POST"
+
+    user = request.form.get('user-id')
+    admin = request.form.get('admin-id')
+    
+    visit = Visit(user_id=user, admin_id=admin, 
+                  visit_timein=datetime.now())
+
+    db.session.add(visit)
+    db.session.commit()
+
+    visits = Visit.query.all()
+
+    flash("Visit has been added.")
+    return render_template('visit_results.html', visits=visits)
+
+
+@app.route('/visit/<int:visit_id>')
+def show_visit(visit_id):
+    """Show the visit details"""
+
+    visit_items = VisitItem.query.filter_by(visit_id=visit_id).all()
+    visit_deets = Visit.query.filter_by(visit_id=visit_id).one()
+
+    return render_template('visit_detail.html', visit_deets=visit_deets,
+                            visit_items=visit_items)
+
+
 @app.route('/search-books', methods=['GET'])
 def find_book():
     """Do a search on books and return a list of matches"""
 
-    if request.args.get('title'):
-        title = '%' + request.args.get('title') + '%'
-    else:
-        title = ''
-    if request.args.get('author'):
-        author = '%' + request.args.get('author') + '%'
-    else:
-        author = ''
-    if request.args.get('call-number'):
-        call_num = '%' + request.args.get('call-number') + '%'
-    else:
-        call_num = ''
+    title = get_return_wildcard('title')
+    author = get_return_wildcard('author')
+    call_num = get_return_wildcard('call-num')
 
     books = Book.query.filter(or_(Book.title.ilike(title), 
                                  Book.author.ilike(author),
@@ -63,20 +95,9 @@ def find_book():
 def find_user():
     """Do a search of user and return a list of possible matches"""
 
-    if request.args.get('email'):
-        email = '%' + request.args.get('email') + '%'
-    else:
-        email = ''
-
-    if request.args.get('fname'):
-        fname = '%' + request.args.get('fname') + '%'
-    else:
-        fname = ''
-
-    if request.args.get('lname'):
-        lname = '%' + request.args.get('lname') + '%'
-    else:
-        lname = ''
+    email = get_return_wildcard('email')
+    fname = get_return_wildcard('fname')
+    lname = get_return_wildcard('lname')
 
     users = User.query.filter(or_(User.email.ilike(email), 
                                     User.fname.ilike(fname), 
@@ -94,6 +115,35 @@ def find_user():
     print user_results
     print jsonify(user_results)
     return render_template('user_results.html', users=users)
+
+
+#################################################################
+#Helper functions
+
+def make_wildcard(name):
+    """Formats request.args result to be wildcard-able"""
+
+    return '%' + name + '%'
+
+
+def get_return_wildcard(name):
+    """Checks to see if there is a request.args and returns string"""
+
+    if request.args.get(name):
+        return make_wildcard(request.args.get(name))
+    else:
+        return ''
+
+    return
+
+
+def post_return_wildcard(name):
+    """Checks to see if there is a request.form and returns string"""
+
+    if request.form.get(name):
+        return make_wildcard(request.form.get(name))
+    else:
+        return ''
 
 
 if __name__ == "__main__":

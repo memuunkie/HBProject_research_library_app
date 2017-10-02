@@ -18,11 +18,11 @@
 
     <div>
     <h3>Add a Book</h3>
-      <form id="book-form" action="/add-book", method="POST">
+      <form id="book-form" action="/visit/{{ visit_deets.visit_id }}", method="POST">
           <div class="form-group">
               Book ID:
-              <input id="add-visit-item" class="form-control" type="text" name="book-id" placeholder="book id">
-              <br><input id="add-item-db" class="btn btn-primary" type="submit" value="Add Book">
+              <input id="add-book" class="form-control" type="text" name="book-id" placeholder="book id">
+              <br><input class="btn btn-primary" type="submit" value="Add Book">
               <!-- <button>test</button> -->
           </div>
       </form>

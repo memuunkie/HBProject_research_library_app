@@ -59,13 +59,19 @@ def add_visit():
     db.session.add(visit)
     db.session.commit()
 
+    return redirect('/visit')
+
+
+@app.route('/visit')
+def show_visits():
+    """Lisit of all visitors"""
+
     visits = Visit.query.all()
 
-    flash("Visit has been added.")
     return render_template('visit_results.html', visits=visits)
 
 
-@app.route('/visit/<int:visit_id>')
+@app.route('/visit/<int:visit_id>', methods=['GET'])
 def show_visit(visit_id):
     """Show the visit details"""
 
@@ -75,6 +81,26 @@ def show_visit(visit_id):
     return render_template('visit_detail.html', visit_deets=visit_deets,
                             visit_items=visit_items)
 
+
+@app.route('/visit/<int:visit_id>', methods=['POST'])
+def add_items(visit_id):
+    """Add a book to a visit"""
+
+    book_id = int(request.form['book-id'])
+
+    book = VisitItem.query.filter_by(book_id=book_id).first()
+
+    if book:
+        flash("Book already in use.")
+    else:
+        visit_item = VisitItem(visit_id=visit_id, book_id=book_id,
+                               checkout_time=datetime.now())
+        flash("Book added.")
+        db.session.add(visit_item)
+
+    db.session.commit()
+
+    return redirect('/visit/%s' % visit_id)
 
 @app.route('/search-books', methods=['GET'])
 def find_book():

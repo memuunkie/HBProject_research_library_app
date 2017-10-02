@@ -91,9 +91,9 @@ class VisitItem(db.Model):
 
     __tablename__ = 'visit_items'
 
-    visit_id = db.Column(db.Integer, db.ForeignKey('visits.visit_id'), 
-                        primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), 
+                        primary_key=True)
+    visit_id = db.Column(db.Integer, db.ForeignKey('visits.visit_id'), 
                         nullable=False)
     checkout_time = db.Column(db.DateTime, nullable=False)
     is_returned = db.Column(db.Boolean, nullable=False, default=False)

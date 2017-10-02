@@ -40,6 +40,19 @@ class User(db.Model):
     user_type = db.relationship('TypeUser',
                                 backref=db.backref('types', order_by=user_id))
 
+    def serialize(self):
+        """For User JSON info"""
+
+        info = {
+                'fname': self.fname,
+                'lname': self.lname,
+                'create_date': str(self.create_date),
+                'visit_timein': str(self.visit_timein),
+                'type_id': self.user_type.type_name
+        }
+
+        return info
+
     def __repr__(self):
         """Provide helpful representation when printed."""
         return "<User user_id=%s type_id=%s>" % (self.user_id, self.type_id)
@@ -57,6 +70,21 @@ class Book(db.Model):
     title = db.Column(db.String(1000), nullable=True)
     edition = db.Column(db.String(100), nullable=True)
     pub_info = db.Column(db.String(400), nullable=True)
+
+    def serialize(self):
+        """For Book JSON info"""
+
+        info = {
+                'book_id': self.book_id,
+                'call_num': self.call_num,
+                'title': self.title,
+                'author': self.author,
+                'edition': self.edition,
+                'pub_info': self.pub_info
+        }
+
+        return info
+
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -80,6 +108,20 @@ class Visit(db.Model):
                             backref=db.backref('user_visit'))
     admin = db.relationship('User', foreign_keys='Visit.admin_id',
                             backref=db.backref('admin_visit'))
+
+    def serialize(self):
+        """For JSON info"""
+
+        info = {
+                'visit_id': self.visit_id,
+                'user_id': self.user_id,
+                'admin_id': self.admin_id,
+                'visit_timein': str(self.visit_timein),
+                'visit_timeout': str(self.visit_timeout)
+        }
+
+        return info
+
     
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -100,6 +142,20 @@ class VisitItem(db.Model):
 
     book = db.relationship('Book', backref=db.backref('visit_book'))
     visit = db.relationship('Visit', backref=db.backref('visit_item'))
+
+    def serialize(self):
+        """For VisitItem JSON info"""
+
+        info = {
+                'book_id': self.book_id,
+                'visit_id': self.visit_id,
+                'title': self.book.title,
+                'author': self.book.author,
+                'is_returned': self.is_returned
+        }
+
+        return info
+
 
     def __repr__(self):
         """Provide helpful representation when printed."""

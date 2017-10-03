@@ -3,6 +3,7 @@ from jinja2 import StrictUndefined
 from flask import jsonify
 from flask import (Flask, render_template, redirect, request, flash,
                    session, url_for)
+
 from flask_debugtoolbar import DebugToolbarExtension
 
 from sqlalchemy import and_, or_
@@ -11,6 +12,8 @@ from model import Book, User, Visit, VisitItem
 from model import connect_to_db, db
 
 from datetime import datetime
+
+from json import dumps, loads
 
 
 app = Flask(__name__)
@@ -66,6 +69,8 @@ def add_visit():
 def show_visits():
     """Lisit of all visitors"""
 
+    today = datetime.now()
+
     visits = Visit.query.all()
 
     return render_template('visit_results.html', visits=visits)
@@ -118,6 +123,21 @@ def find_book():
 
 
 @app.route('/search-users', methods=['GET'])
+def search_users():
+    """Do a search of user and return a list of possible matches"""
+
+    email = get_return_wildcard('email')
+    fname = get_return_wildcard('fname')
+    lname = get_return_wildcard('lname')
+
+    users = User.query.filter(or_(User.email.ilike(email), 
+                                    User.fname.ilike(fname), 
+                                    User.lname.ilike(lname))).all()
+
+    return render_template('user_results.html', users=users)
+
+
+@app.route('/find-users.json', methods=['GET'])
 def find_user():
     """Do a search of user and return a list of possible matches"""
 
@@ -129,18 +149,9 @@ def find_user():
                                     User.fname.ilike(fname), 
                                     User.lname.ilike(lname))).all()
 
-    user_results = {}
+    users = [u.serialize() for u in users]
 
-    for user in users:
-        user_results[user.user_id] = {
-        'fname': user.fname,
-        'lname': user.lname,
-        'email': user.email
-        }
-
-    print user_results
-    print jsonify(user_results)
-    return render_template('user_results.html', users=users)
+    return jsonify(users)
 
 
 #################################################################

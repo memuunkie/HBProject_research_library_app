@@ -9,7 +9,7 @@
                 {% if visit_items %}
                     {% for item in visit_items %}
                       <li>
-                        RETURNED: {{ item.is_returned}} {{ item.book.title}}
+                        {{ item.book_id }} RETURNED: {{ item.is_returned}} {{ item.book.title}}
                       </li>
                     {% endfor %}
                 {% endif %}
@@ -27,6 +27,5 @@
           </div>
       </form>
     </div>
-
 
 {% endblock %}

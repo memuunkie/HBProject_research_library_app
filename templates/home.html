@@ -26,6 +26,29 @@
             <br><input type="submit" value="Register">
 
         </form>
+
+    <div>
+        <!-- Create a Visit -->
+        <h3>Patron Search</h3>
+        <form id="user-search" action="/find-users" method="GET">
+            <!-- Sends form data as GET -->
+            
+            <div class="form-group">
+                Search by:
+                <!-- Queries 'users' table -->
+                <br>Email:<input id="search-email" class="form-control" type="text" name="email" placeholder="email">
+                <br>First Name:<input id="search-fname"class="form-control" type="text" name="fname" placeholder="first name">
+                <br>Last Name:<input id="search-lname"class="form-control" type="text" name="lname" placeholder="last name">
+            </div>
+            <div class="form-group">
+                <input id="check-in-patron" class="btn btn-primary" type="submit" value="Search Users">
+                <!-- <button>test</button> -->
+            </div>
+        </form>
+    </div>
+
+            <ul id="result-user-list"></ul>
+
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/library-functions.js"></script>
 {% endblock %}

@@ -3,20 +3,23 @@
 
 function displayUserResults(results) {
     // Function for showing list of users
-    $("#result-user-list").html($.each(results, function(key, value) 
-        {
-    console.log(key + " : " + value.fname + " " + value.email);
-        }   
-    );
+
+    var user_list = $("#result-user-list");
+
+    for(var i = 0; i < results.length; i++) {
+       user_list.append("<li>" + results[i]['fname'] + " " + results[i]['lname'] + "</li>");
+    }
 }
 
 function showUserResults(evt) {
     // Function to send form info to server as GET
     evt.preventDefault();
         //prevent from working automatically
-    var url="/search-users.json?email=" + $("#search-email").val();
-            // + "&fname=" + $("#search-fname").val() 
-            // + "&lname=" + $("#search-lname").val();
+    var email = "/find-users.json?email=" + $("#search-email").val();
+    var fname = "&fname=" + $("#search-fname").val();
+    var lname = "&lname=" + $("#search-lname").val();
+
+    var url = email+fname+lname;
 
     $.get(url, displayUserResults);
 }

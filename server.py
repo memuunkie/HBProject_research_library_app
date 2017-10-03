@@ -154,6 +154,20 @@ def find_user():
     return jsonify(users)
 
 
+@app.route('/new-visit.json', methods=['POST'])
+def add_new_visit():
+    """Add a Visit to the database"""
+
+    print "Adding via AJAX"
+
+    user = request.form.get('user-id')
+
+    print user
+
+    return "Success to post"
+
+
+
 #################################################################
 #Helper functions
 

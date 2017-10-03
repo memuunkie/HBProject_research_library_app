@@ -9,21 +9,32 @@ function displayUserResults(results) {
     // remove any existing results
     user_list.empty();
 
+    //to check data against what rendered
     console.log(results);
 
     for(var i = 0; i < results.length; i++) {
 
         var btn = $("<button>", {
-                    id: results[i]['user_id'],
+                    name: 'user-id',
+                    value: results[i]['user_id'],
                     on: {
                         click: function() {
-                            console.log(this.id);
+
+                            console.log(this.value);
+                            var url = "/new-visit.json";
+                            var formValues = {
+                                'user-id': this.value
+                            }
+                            console.log(formValues);
+                            $.post(url, formValues, function(res){
+                                console.log(res);
+                            });
                         }
                     }
         });
 
         btn.html('Add Visit');
-        
+
         user_list.append("<li>" + results[i]['fname'] + 
                         " " + results[i]['lname'])
                         .append(btn);
@@ -39,6 +50,8 @@ function showUserResults(evt) {
     var search_path = "/find-users.json?";
 
     var url = search_path + formInput;
+
+    console.log(url);
 
     $.get(url, displayUserResults);
 }

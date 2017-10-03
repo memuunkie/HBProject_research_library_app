@@ -44,6 +44,7 @@ class User(db.Model):
         """For User JSON info"""
 
         info = {
+                'user_id': self.user_id,
                 'fname': self.fname,
                 'lname': self.lname,
                 'create_date': str(self.create_date),

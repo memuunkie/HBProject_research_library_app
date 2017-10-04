@@ -19,7 +19,7 @@ from json import dumps, loads
 app = Flask(__name__)
 
 # Required to use Flask sessions and the debug toolbar
-app.secret_key = "ABC"
+app.secret_key = "ABCItseasyas123orsimpleasDo-Re-MiABC123babyyouandmegirl"
 
 # Normally, if you use an undefined variable in Jinja2, it fails
 # silently. This is horrible. Fix this so that, instead, it raises an
@@ -173,15 +173,15 @@ def display_visitors():
 
     visits = Visit.query.all()
 
-    test = []
+    all_visits = []
 
     for visit in visits:
-        x = visit.serialize()
-        x.update(visit.user.serialize())
-        test.append(x)
+        x = visit.user.serialize()
+        x.update(visit.serialize())
+        all_visits.append(x)
 
-    print jsonify(test)
-    return jsonify(test)
+    print jsonify(all_visits)
+    return jsonify(all_visits)
 
 
 #################################################################

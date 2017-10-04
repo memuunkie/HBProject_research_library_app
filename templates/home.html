@@ -10,26 +10,27 @@
 
     <div>
         <h3>Today's Visitors</h3>
-
+        <!-- Uses displayCurrentVisitors and getCurrentVisitors in JS -->
         <button id="display-visits" class="btn btn-primary">Current Visitors</button> 
         <div>
             <ul id="current-visitors"></ul>
         </div>
     </div>
+    <div>
         <!-- Create a Visit -->
         <h3>Patron Search</h3>
         <form id="user-search" action="/find-users" method="GET">
             <!-- Sends form data as GET -->
-            
+            <!-- Uses showUserResults and displayuserResults in JS -->
             <div class="form-group">
                 Search by:
-                <!-- Queries 'users' table -->
+                <!-- Queries 'users' table in DB -->
                 <br>Email:<input id="search-email" class="form-control" type="text" name="email" placeholder="email">
                 <br>First Name:<input id="search-fname"class="form-control" type="text" name="fname" placeholder="first name">
                 <br>Last Name:<input id="search-lname"class="form-control" type="text" name="lname" placeholder="last name">
             </div>
             <div class="form-group">
-                <button id="search-patrons" class="btn btn-primary" type="submit">Search Users</button>                
+                <button class="btn btn-primary" type="submit">Search Users</button>                
             </div>
         </form>
     </div>
@@ -42,28 +43,30 @@
     <hr>
     <h1>Need to Work on These</h1>
 
-    <h3>Please sign in</h3>
-    <!-- for now, library signs in here too -->
-        <form method="GET" action="/">
-            Email:<input type="email" name="email" required>
-            <br>Password:<input type="password" name = "password" required>
+    <div>
+        <h3>Please sign in</h3>
+        <!-- for now, library signs in here too -->
+        <form id="log-in" action="/" method="GET">
+            <br>Email:<input type="email" name="email" required>
+            <br>Password:<input type="password" name="password" required>
 
-            <br><input type="submit" value="Sign In">
+            <br><button class="btn btn-primary" type="submit">Sign In</button>
 
-
+        </form>
+    </div>
     <!-- Should pop up when click on link/do not go to new page-->
 
-    <h4>If you do not have a sign in, please register here</h4>
-        <form method="GET" action="/">
+    <div>
+        <h4>If you do not have a sign in, please register here</h4>
+        <form id="register" method="GET" action="/">
             First Name :<input type="text" name="fname" required>
             <br>Last Name :<input type="text" name="lname" required>
             <br>Email<input type="email" name="email" required>
 
             <br><input type="submit" value="Register">
-
         </form>
 
-    <div>
+    </div>
 
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/library-functions.js"></script>

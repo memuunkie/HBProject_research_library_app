@@ -1,13 +1,15 @@
 "use strict";
 
-
+/**************
+    For doing a search of Users and rendering a list with buttons
+**************/
 function displayUserResults(results) {
     // Function for showing list of users
 
-    var user_list = $("#result-user-list");
+    var userList = $("#result-user-list");
 
     // remove any existing results
-    user_list.empty();
+    userList.empty();
 
     //to check data against what rendered
     console.log(results);
@@ -28,8 +30,8 @@ function displayUserResults(results) {
                             console.log(buttonVal);
                             $.post(url, buttonVal, function(res){
                                 console.log(res);
-                                user_list.empty();
-                                user_list.html("<p>User has been added</p>");
+                                userList.empty();
+                                userList.html("<p>User has been added</p>");
                             });
                         }
                     }
@@ -37,8 +39,8 @@ function displayUserResults(results) {
 
         btn.html('Add Visit');
 
-        user_list.append("<li>" + results[i]['fname'] + 
-                        " " + results[i]['lname'])
+        userList.append("<li>" + results[i]['fname'] + 
+                        " " + results[i]['lname']) 
                         .append(btn);
     }
 }
@@ -49,10 +51,10 @@ function showUserResults(evt) {
         //prevent from working automatically
     var formInput = $("#user-search").serialize();
 
-    var search_path = "/find-users.json?";
+    var searchPath = "/find-users.json?";
 
-    var url = search_path + formInput;
-
+    var url = searchPath + formInput;
+    // check that url path looks right
     console.log(url);
 
     $.get(url, displayUserResults);
@@ -60,17 +62,28 @@ function showUserResults(evt) {
 
 $("#user-search").on('submit', showUserResults);
 
+/*************
+    Display all the visits in the database
+*************/
+
 function displayCurrentVisitors(results) {
     //List of current checked-in visitors
 
-    var visitor_list = $("#current-visitors");
-    visitor_list.empty();
+    var visitorList = $("#current-visitors");
+
+    // clear out the past visitor list
+    visitorList.empty();
+    // check data
     console.log(results);
 
     for (var i = 0; i < results.length; i++) {
-        console.log(results[i]['fname'] + results[i]['lname']);
-        visitor_list.append("<li>" + results[i]['fname'] + 
-                        " " + results[i]['lname']);
+        //check that results will render right
+        console.log(results[i]['fname'] + " " + results[i]['lname']
+                    + " " + results[i]['visit_timein']);
+
+        visitorList.append("<li>" + results[i]['fname'] + 
+                        " " + results[i]['lname'] + 
+                        " in at " + formatDate(results[i]['visit_timein']));
     }
 }
 
@@ -83,3 +96,49 @@ function getCurrentVisitors(evt) {
 }
 
 $("#display-visits").on('click', getCurrentVisitors);
+
+/*************
+    For logging in
+*************/
+
+function loginUser() {
+    //Login in user and set up a session in server
+    // evt.preventDefault();
+
+    var formInput = $("#log-in").serialize();
+
+    console.log(formInput);
+
+}
+
+
+
+
+
+
+/*************
+    Some helper functions to get it out of the way
+**************/
+
+function formatDate(date) {
+    var newDate = new Date(date);
+    var date = newDate.toDateString();
+    var hour = newDate.getHours();
+    var minutes = newDate.getMinutes();
+
+    var time = function (hr, min) { 
+        if (min < 10) {
+            min = '0' + min;
+        }
+        if (hour > 12) {
+            hour = hour - 12;
+            min += 'PM';
+        } else {
+            min += 'AM';
+        }
+        return hour + ':' + min;
+    };
+
+    return date + ' ' + time(hour, minutes);
+
+}

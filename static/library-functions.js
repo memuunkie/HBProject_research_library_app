@@ -21,14 +21,16 @@ function displayUserResults(results) {
                     value: results[i]['user_id'],
                     on: {
                         click: function() {
-
+                            //check to see if right value sent
                             console.log(this.value);
                             var url = "/new-visit.json";
                             var buttonVal = {
                                 'user-id': this.value
                             }
+                            //show what is getting sent to server
                             console.log(buttonVal);
                             $.post(url, buttonVal, function(res){
+                                //show what got back from server
                                 console.log(res);
                                 userList.empty();
                                 userList.html("<p>User has been added</p>");
@@ -101,16 +103,31 @@ $("#display-visits").on('click', getCurrentVisitors);
     For logging in
 *************/
 
-function loginUser() {
+function loginResults(results) {
+
+    if (results == 'None') {
+        $("#user-login").append("<p>No such user. Please register.</p>");
+    } else {
+        $('#user-login').empty();
+        $("#user-register").remove();
+        $("#user-login").html('You are logged in.');
+    }
+
+}
+
+function loginUser(evt) {
     //Login in user and set up a session in server
-    // evt.preventDefault();
+    evt.preventDefault();
 
     var formInput = $("#log-in").serialize();
 
     console.log(formInput);
 
+    $.post("/log-in.json", formInput, loginResults);
+
 }
 
+$("#log-in").on("submit", loginUser);
 
 
 

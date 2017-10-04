@@ -137,6 +137,25 @@ def search_users():
     return render_template('user_results.html', users=users)
 
 
+#Everything below are for AJAX calls and rendering only on home.html
+###############################################################
+@app.route('/display-visitors')
+def display_visitors():
+    """List of current visitors"""
+
+    visits = Visit.query.all()
+
+    all_visits = []
+
+    for visit in visits:
+        x = visit.user.serialize()
+        x.update(visit.serialize())
+        all_visits.append(x)
+
+    print jsonify(all_visits)
+    return jsonify(all_visits)
+
+
 @app.route('/find-users.json', methods=['GET'])
 def find_user():
     """Do a search of user and return a list of possible matches"""
@@ -161,27 +180,36 @@ def add_new_visit():
     print "Adding via AJAX"
 
     user = request.form.get('user-id')
+    admin = session['user']
 
-    print user
+    visit = Visit(user_id=user, admin_id=admin, 
+                  visit_timein=datetime.now())
 
+    db.session.add(visit)
+    db.session.commit()
+    
     return "Success to post"
 
 
-@app.route('/display-visitors')
-def display_visitors():
-    """List of current visitors"""
+@app.route('/log-in.json', methods=['POST'])
+def log_in_user():
+    """Login an existing user"""
+    """Right now, just admin to test adding visits"""
 
-    visits = Visit.query.all()
+    email = request.form.get('email')
+    password = request.form.get('password')
 
-    all_visits = []
+    user = db.session.query(User).filter(User.email == email,
+                                         User.password == password).first()
 
-    for visit in visits:
-        x = visit.user.serialize()
-        x.update(visit.serialize())
-        all_visits.append(x)
-
-    print jsonify(all_visits)
-    return jsonify(all_visits)
+    if user is None:
+        print 'No such user'
+        return 'None'
+    else:
+        session['user'] = user.user_id
+        return 'True'
+    # if user.type_id == 2 render_template("user page")
+    # if user.type_id == 1 render_template("library page")
 
 
 #################################################################

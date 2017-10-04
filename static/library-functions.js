@@ -22,12 +22,14 @@ function displayUserResults(results) {
 
                             console.log(this.value);
                             var url = "/new-visit.json";
-                            var formValues = {
+                            var buttonVal = {
                                 'user-id': this.value
                             }
-                            console.log(formValues);
-                            $.post(url, formValues, function(res){
+                            console.log(buttonVal);
+                            $.post(url, buttonVal, function(res){
                                 console.log(res);
+                                user_list.empty();
+                                user_list.html("<p>User has been added</p>");
                             });
                         }
                     }
@@ -58,11 +60,26 @@ function showUserResults(evt) {
 
 $("#user-search").on('submit', showUserResults);
 
-// $("#result-user-list").on('click', 'button', function() {
-//     console.log("Testing, testing, 123" + $('button').attr('user-id'));
-// } );
+function displayCurrentVisitors(results) {
+    //List of current checked-in visitors
 
+    var visitor_list = $("#current-visitors");
+    visitor_list.empty();
+    console.log(results);
 
-//  ("<button user-id=" + results[i]['user_id']
-//                         + " class=\"btn btn-primary\"type=\
-//                         \"submit\" >Add Visit</button>")
+    for (var i = 0; i < results.length; i++) {
+        console.log(results[i]['fname'] + results[i]['lname']);
+        visitor_list.append("<li>" + results[i]['fname'] + 
+                        " " + results[i]['lname']);
+    }
+}
+
+function getCurrentVisitors(evt) {
+    //send query to server for all current checkin in visitors
+    evt.preventDefault();
+
+    $.get("/display-visitors", displayCurrentVisitors);
+
+}
+
+$("#display-visits").on('click', getCurrentVisitors);

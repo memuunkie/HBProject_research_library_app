@@ -167,6 +167,22 @@ def add_new_visit():
     return "Success to post"
 
 
+@app.route('/display-visitors')
+def display_visitors():
+    """List of current visitors"""
+
+    visits = Visit.query.all()
+
+    test = []
+
+    for visit in visits:
+        x = visit.serialize()
+        x.update(visit.user.serialize())
+        test.append(x)
+
+    print jsonify(test)
+    return jsonify(test)
+
 
 #################################################################
 #Helper functions

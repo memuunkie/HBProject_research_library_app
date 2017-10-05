@@ -108,7 +108,7 @@ def add_items(visit_id):
     return redirect('/visit/%s' % visit_id)
 
 @app.route('/search-books', methods=['GET'])
-def find_book():
+def search_books():
     """Do a search on books and return a list of matches"""
 
     title = get_return_wildcard('title')
@@ -182,13 +182,19 @@ def add_new_visit():
     user = request.form.get('user-id')
     admin = session['user']
 
-    visit = Visit(user_id=user, admin_id=admin, 
-                  visit_timein=datetime.now())
+    has_visit = db.session.query(Visit).filter(Visit.user_id == user,
+                                               Visit.visit_timeout == None).first()
 
-    db.session.add(visit)
-    db.session.commit()
+    if has_visit is None:
+        visit = Visit(user_id=user, admin_id=admin, 
+                      visit_timein=datetime.now())
 
-    return "Success to post"
+        db.session.add(visit)
+        db.session.commit()
+
+        return "Success to post"
+    else:
+        return "None"
 
 
 @app.route('/log-in.json', methods=['POST'])
@@ -228,6 +234,30 @@ def checkout_user():
 
     print "User", user_id, "has been checked out"
     return jsonify(visit.serialize())
+
+
+@app.route('/find-books.json', methods=['GET'])
+def find_book():
+    """Do a search on books and return a list of matches"""
+
+    title = get_return_wildcard('title')
+    author = get_return_wildcard('author')
+    call_num = get_return_wildcard('call-num')
+
+    books = Book.query.filter(or_(Book.title.ilike(title), 
+                                 Book.author.ilike(author),
+                                 Book.call_num.ilike(call_num))).all()
+
+    books = [b.serialize() for b in books]
+
+    return jsonify(books)
+
+
+@app.route('/add-book.json', methods=['POST'])
+def add_book():
+    """Add a book to a visit"""
+
+    pass
 
 
 #################################################################

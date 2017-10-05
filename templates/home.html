@@ -29,9 +29,7 @@
                 <br>First Name:<input id="search-fname"class="form-control" type="text" name="fname" placeholder="first name">
                 <br>Last Name:<input id="search-lname"class="form-control" type="text" name="lname" placeholder="last name">
             </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit">Search Users</button>                
-            </div>
+                <button class="btn btn-primary" type="submit">Search Users</button>   
         </form>
     </div>
 
@@ -39,6 +37,23 @@
             <ul id="result-user-list"></ul>
         </div>
 
+    <div>
+        <h3>Book Search</h3>
+        <form id="book-search" action="/find-books", method="GET">
+            <div class="form-group">
+                Search for:
+                <br>Title<input id="search-title" class="form-control" type="text" name="title" placeholder="title">
+                <br>Author<input id="search-author" class="form-control" type="text" name="author" placeholder="author">
+                <br>Call Number<input id="search-callnum" class="form-control" type="text" name='call-number' placeholder="call number">
+                <br><button class="btn btn-primary" type="submit">Search Books</button>
+
+            </div>
+        </form>
+    </div>
+
+        <div>
+            <ul id="result-book-list"></ul>
+        </div>
 
     <hr>
     <h1>Need to Work on These</h1>

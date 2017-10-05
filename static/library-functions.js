@@ -32,8 +32,14 @@ function displayUserResults(results) {
                             $.post(url, buttonVal, function(res){
                                 //show what got back from server
                                 console.log(res);
-                                userList.empty();
-                                userList.html("<p>User has been added</p>");
+
+                                if (res == 'None') {
+                                    userList.empty();
+                                    userList.html("<p>USER ALREADY CHECKED IN</p>");
+                                    } else {
+                                    userList.empty();
+                                    userList.html("<p>User has been added</p>");
+                                    }                                    
                                 });
                                             }
                         }
@@ -63,6 +69,62 @@ function showUserResults(evt) {
 }
 
 $("#user-search").on('submit', showUserResults);
+
+/**************
+    For doing a search of Books
+**************/
+
+function displayBookResults(results) {
+    // Function for showing list of users
+
+    var bookList = $("#result-book-list");
+
+    bookList.empty();
+
+    console.log(results);
+
+    for(var i = 0; i < results.length; i++) {
+
+        var btn = $("<button>", {
+                        name: 'book-id',
+                        value: results[i]['book_id'],
+                        on: {
+                            click: function() {
+                                console.log(this.value);
+                                var url = "/new-visit.json";
+                                var buttonVal = {
+                                    'user-id': this.value
+                                    }
+
+                                    
+                                }
+                            }
+                }
+
+            );
+
+        bookList.append("<li><b>" + results[i]['title'] + 
+                        "</b><br>" + results[i]['author'] +
+                        "<br>" + results[i]['call_num']);
+    }
+}
+
+function showBookResults(evt) {
+    // Function to send form info to server as GET
+    evt.preventDefault();
+        //prevent from working automatically
+    var formInput = $("#book-search").serialize();
+
+    var searchPath = "/find-books.json?";
+
+    var url = searchPath + formInput;
+    // check that url path looks right
+    console.log(url);
+
+    $.get(url, displayBookResults);
+}
+
+$("#book-search").on('submit', showBookResults);
 
 /*************
     Display all the visits in the database
@@ -155,9 +217,6 @@ function loginUser(evt) {
 }
 
 $("#log-in").on("submit", loginUser);
-
-
-
 
 
 /*************

@@ -26,7 +26,7 @@ function displayUserResults(results) {
                             var url = "/new-visit.json";
                             var buttonVal = {
                                 'user-id': this.value
-                            }
+                                }
                             //show what is getting sent to server
                             console.log(buttonVal);
                             $.post(url, buttonVal, function(res){
@@ -34,9 +34,9 @@ function displayUserResults(results) {
                                 console.log(res);
                                 userList.empty();
                                 userList.html("<p>User has been added</p>");
-                            });
+                                });
+                                            }
                         }
-                    }
         });
 
         btn.html('Add Visit');
@@ -83,9 +83,36 @@ function displayCurrentVisitors(results) {
         console.log(results[i]['fname'] + " " + results[i]['lname']
                     + " " + results[i]['visit_timein']);
 
-        visitorList.append("<li>" + results[i]['fname'] + 
-                        " " + results[i]['lname'] + 
-                        " in at " + formatDate(results[i]['visit_timein']));
+        var btn = $("<button>", {
+                    name: 'user-id',
+                    value: results[i]['user_id'],
+                    on: {
+                        click: function() {
+                            //check to see if right value sent
+                            console.log(this.value);
+                            var url = "/checkout.json";
+                            var buttonVal = {
+                                'user-id': this.value
+                            }
+                            //show what is getting sent to server
+                            console.log(buttonVal);
+                            $.post(url, buttonVal, function(res){
+                                //show what got back from server
+                                console.log(res);
+                                console.log(res['user_id']);
+                                $("#"+ res['user_id']).remove();
+                            });
+                        }
+                    }
+        });
+
+        btn.html('Check Out');
+
+        visitorList.append("<li id=\"" + results[i]['user_id'] + "\">"
+                        + results[i]['fname'] + " " + results[i]['lname'] 
+                        + 
+                        " in at " + formatDate(results[i]['visit_timein']))
+                        .append(btn);
     }
 }
 

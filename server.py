@@ -143,7 +143,7 @@ def search_users():
 def display_visitors():
     """List of current visitors"""
 
-    visits = Visit.query.all()
+    visits = db.session.query(Visit).filter(Visit.visit_timeout==None).all()
 
     all_visits = []
 
@@ -187,7 +187,7 @@ def add_new_visit():
 
     db.session.add(visit)
     db.session.commit()
-    
+
     return "Success to post"
 
 
@@ -210,6 +210,24 @@ def log_in_user():
         return 'True'
     # if user.type_id == 2 render_template("user page")
     # if user.type_id == 1 render_template("library page")
+
+
+@app.route('/checkout.json', methods=['POST'])
+def checkout_user():
+    """Checkout user"""
+    """Does not account for visit items"""
+
+    user_id = request.form.get('user-id')
+
+    visit = db.session.query(Visit).filter(Visit.user_id==user_id,
+                                        Visit.visit_timeout == None).first()
+
+    visit.visit_timeout = datetime.now()
+
+    db.session.commit()
+
+    print "User", user_id, "has been checked out"
+    return jsonify(visit.serialize())
 
 
 #################################################################

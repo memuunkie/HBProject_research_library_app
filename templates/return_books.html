@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+        {% if visit %}
+        <div>
+            <h2>Return Books for: {{ visit.user.fname }} {{ visit.user.lname}}
+        </div>
+        {% endif%}
+
+    <div>
+        <h3>Books Outstanding</h3>
+    </div>
+
+        <div>
+            <ul id="result-book-list"></ul>
+        </div>
+    <span id="visit-id">{{ visit.visit_id }}</span>
+    
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="/static/library-functions.js"></script>
+<script>$('span').hide(); </script>
+{% endblock %}

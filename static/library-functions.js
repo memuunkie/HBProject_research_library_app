@@ -48,7 +48,7 @@ function displayUserResults(results) {
         btn.html('Add Visit');
 
         userList.append("<li>" + results[i]['fname'] + 
-                        " " + results[i]['lname']) 
+                        " " + results[i]['lname'] + "<br>")
                         .append(btn);
     }
 }
@@ -91,21 +91,29 @@ function displayBookResults(results) {
                         on: {
                             click: function() {
                                 console.log(this.value);
-                                var url = "/new-visit.json";
+                                var url = "/add-book.json";
                                 var buttonVal = {
-                                    'user-id': this.value
+                                    'book-id': this.value,
+                                    'visit-id': parseInt($('#visit-id').html()),
                                     }
+                                $.post(url, buttonVal, function(res) {
+                                        $('#result-book-list').empty();
+                                        $('#result-book-list').html("<p>" + res + "</p>");
+                                        console.log(res)
+                                    });
 
-                                    
                                 }
                             }
                 }
 
             );
 
+        btn.html("Add Book");
+
         bookList.append("<li><b>" + results[i]['title'] + 
                         "</b><br>" + results[i]['author'] +
-                        "<br>" + results[i]['call_num']);
+                        "<br>" + results[i]['call_num'] +
+                        "<br>").append(btn);
     }
 }
 
@@ -168,13 +176,38 @@ function displayCurrentVisitors(results) {
                     }
         });
 
+        var btn2 = $("<button>", {
+                    name: 'add-book',
+                    value: results[i]['user_id'],
+                    on: {
+                        click: function() {
+                            var url = "/book-search?user-id="+ this.value;
+                            $.get(window.location.href = url);
+                        }
+                    }
+        });
+
+        var btn3 = $("<button>", {
+                    name: 'return-book',
+                    value: results[i]['user_id'],
+                    on: {
+                        click: function() {
+                            var url = "/return-book?user-id="+ this.value;
+                            $.get(window.location.href = url);
+                        }
+                    }
+        });
+
+
         btn.html('Check Out');
+        btn2.html('Add Book');
+        btn3.html('Return Book');
 
         visitorList.append("<li id=\"" + results[i]['user_id'] + "\">"
                         + results[i]['fname'] + " " + results[i]['lname'] 
                         + 
                         " in at " + formatDate(results[i]['visit_timein']))
-                        .append(btn);
+                        .append(btn).append(btn2).append(btn3);
     }
 }
 

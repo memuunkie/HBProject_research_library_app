@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+        {% if visit %}
+        <div>
+            <h2>Add Books for: {{ visit.user.fname }} {{ visit.user.lname}}
+        </div>
+        {% endif%}
+
+    <div>
+        <h3>Book Search</h3>
+        <form id="book-search" action="/find-books", method="GET">
+            <div class="form-group">
+                Search for:
+                <br>Title<input id="search-title" class="form-control" type="text" name="title" placeholder="title">
+                <br>Author<input id="search-author" class="form-control" type="text" name="author" placeholder="author">
+                <br>Call Number<input id="search-callnum" class="form-control" type="text" name='call-number' placeholder="call number">
+                <br><button class="btn btn-primary" type="submit">Search Books</button>
+
+            </div>
+        </form>
+    </div>
+
+        <div>
+            <ul id="result-book-list"></ul>
+        </div>
+        <span id="visit-id">{{ visit.visit_id }}</span>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="/static/library-functions.js"></script>
+<script>$('span').hide(); </script>
+{% endblock %}

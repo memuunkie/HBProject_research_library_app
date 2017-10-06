@@ -13,8 +13,6 @@ from model import connect_to_db, db
 
 from datetime import datetime
 
-from json import dumps, loads
-
 
 app = Flask(__name__)
 
@@ -257,7 +255,55 @@ def find_book():
 def add_book():
     """Add a book to a visit"""
 
+    book_id = request.form.get('book-id')
+    visit_id = request.form.get('visit-id')
+
+    check_book = VisitItem.query.filter(VisitItem.book_id == book_id,
+                                        VisitItem.is_returned == False).first()
+
+    if check_book is None:
+        visit_item = VisitItem(visit_id=visit_id, book_id=book_id,
+                               checkout_time=datetime.now())
+        db.session.add(visit_item)
+        db.session.commit()
+
+    else:
+        return "This book is currently checked out"
+
+    return "This book has been added to the user's record."
+
+
+@app.route('/book-search', methods=['GET'])
+def find_visit_books():
+    """render the book search page"""
+
+    user = request.args.get('user-id')
+
+    visit = Visit.query.filter(Visit.user_id == user,
+                               Visit.visit_timeout == None).first()
+
+    return render_template('book_search.html', visit=visit)
+
+
+@app.route('/return-book', methods=['GET'])
+def checked_books():
+    """outstanding books from user"""
+
+    user = request.args.get('user-id')
+
+    visit = Visit.query.filter(Visit.user_id == user,
+                               Visit.visit_timeout == None).first()
+
+    return render_template('return_books.html', visit=visit)
+
+
+@app.route('/book-return.json', methods=['POST'])
+def return_books():
+    """return books from user"""
+
     pass
+
+
 
 
 #################################################################
@@ -302,4 +348,4 @@ if __name__ == "__main__":
 
 
 
-    app.run(port=5000, host='0.0.0.0')
+    app.run(port=3000, host='0.0.0.0')

@@ -153,7 +153,8 @@ function displayCurrentVisitors(results) {
         console.log(results[i]['fname'] + " " + results[i]['lname']
                     + " " + results[i]['visit_timein']);
 
-        var btn = $("<button>", {
+        var btn1 = $("<button>", {
+                    id: 'btn1-' + results[i]['user_id'],
                     name: 'user-id',
                     value: results[i]['user_id'],
                     on: {
@@ -170,13 +171,17 @@ function displayCurrentVisitors(results) {
                                 //show what got back from server
                                 console.log(res);
                                 console.log(res['user_id']);
-                                $("#"+ res['user_id']).remove();
+                                $("#li-"+ res['user_id']).empty().html("User has been checked out.");
+                                $("#btn1-" + res['user_id']).remove();
+                                $("#btn2-" + res['user_id']).remove();
+                                $("#btn3-" + res['user_id']).remove();
                             });
                         }
                     }
             });
 
         var btn2 = $("<button>", {
+                    id: 'btn2-' + results[i]['user_id'],
                     name: 'add-book',
                     value: results[i]['user_id'],
                     on: {
@@ -188,6 +193,7 @@ function displayCurrentVisitors(results) {
             });
 
         var btn3 = $("<button>", {
+                    id: 'btn3-' + results[i]['user_id'],
                     name: 'return-book',
                     value: results[i]['user_id'],
                     on: {
@@ -199,15 +205,15 @@ function displayCurrentVisitors(results) {
         });
 
 
-        btn.html('Check Out');
+        btn1.html('Check Out');
         btn2.html('Add Book');
         btn3.html('Return Books');
 
-        visitorList.append("<li id=\"" + results[i]['user_id'] + "\">"
+        visitorList.append("<li id=\"li-" + results[i]['user_id'] + "\">"
                         + results[i]['fname'] + " " + results[i]['lname'] 
                         + 
                         " in at " + formatDate(results[i]['visit_timein']))
-                        .append(btn).append(btn2).append(btn3);
+                        .append(btn1).append(btn2).append(btn3);
     }
 }
 

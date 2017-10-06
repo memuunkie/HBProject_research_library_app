@@ -174,7 +174,7 @@ function displayCurrentVisitors(results) {
                             });
                         }
                     }
-        });
+            });
 
         var btn2 = $("<button>", {
                     name: 'add-book',
@@ -185,7 +185,7 @@ function displayCurrentVisitors(results) {
                             $.get(window.location.href = url);
                         }
                     }
-        });
+            });
 
         var btn3 = $("<button>", {
                     name: 'return-book',
@@ -201,7 +201,7 @@ function displayCurrentVisitors(results) {
 
         btn.html('Check Out');
         btn2.html('Add Book');
-        btn3.html('Return Book');
+        btn3.html('Return Books');
 
         visitorList.append("<li id=\"" + results[i]['user_id'] + "\">"
                         + results[i]['fname'] + " " + results[i]['lname'] 

@@ -294,15 +294,45 @@ def checked_books():
     visit = Visit.query.filter(Visit.user_id == user,
                                Visit.visit_timeout == None).first()
 
-    return render_template('return_books.html', visit=visit)
+    visit_items = VisitItem.query.filter(VisitItem.visit_id == visit.visit_id,
+                                         VisitItem.is_returned == False).all()
+
+    return render_template('return_books.html', visit=visit, visit_items=visit_items)
+
+
+@app.route('/show-books.json', methods=['GET'])
+def show_outstanding():
+    """show all the outstanding books"""
+
+    visit = request.args.get('visit-id')
+
+    if visit is None:
+        return []
+    else:
+        books = VisitItem.query.filter(VisitItem.visit_id == visit,
+                                       VisitItem.is_returned == False).all()
+
+        books = [b.serialize() for b in books]
+
+        return jsonify(books)
 
 
 @app.route('/book-return.json', methods=['POST'])
 def return_books():
     """return books from user"""
 
-    pass
+    book = request.form.get('book-id')
 
+    return_book = VisitItem.query.filter(VisitItem.book_id == book,
+                                         VisitItem.is_returned == False).first()
+
+    if return_book is None:
+        return "This book has already been returned."
+
+    else:
+        return_book.is_returned = True
+        db.session.commit()
+        return "Book has been returned."
 
 
 

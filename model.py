@@ -152,6 +152,7 @@ class VisitItem(db.Model):
                 'visit_id': self.visit_id,
                 'title': self.book.title,
                 'author': self.book.author,
+                'call_num': self.book.call_num,
                 'is_returned': self.is_returned
         }
 

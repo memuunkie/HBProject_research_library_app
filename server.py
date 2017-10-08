@@ -226,12 +226,18 @@ def checkout_user():
     visit = db.session.query(Visit).filter(Visit.user_id==user_id,
                                         Visit.visit_timeout == None).first()
 
-    visit.visit_timeout = datetime.now()
+    items = db.session.query(VisitItem).filter(VisitItem.visit_id == Visit.visit_id,
+                                               VisitItem.is_returned == False).all()
 
-    db.session.commit()
+    if items:
+        return 'None'
+    else:
+        visit.visit_timeout = datetime.now()
 
-    print "User", user_id, "has been checked out"
-    return jsonify(visit.serialize())
+        db.session.commit()
+
+        print "User", user_id, "has been checked out"
+        return jsonify(visit.serialize())
 
 
 @app.route('/find-books.json', methods=['GET'])
@@ -378,4 +384,4 @@ if __name__ == "__main__":
 
 
 
-    app.run(port=3000, host='0.0.0.0')
+    app.run(port=5000, host='0.0.0.0')

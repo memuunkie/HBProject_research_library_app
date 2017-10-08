@@ -134,8 +134,9 @@ class VisitItem(db.Model):
 
     __tablename__ = 'visit_items'
 
+    item_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     book_id = db.Column(db.Integer, db.ForeignKey('books.book_id'), 
-                        primary_key=True)
+                        nullable=False)
     visit_id = db.Column(db.Integer, db.ForeignKey('visits.visit_id'), 
                         nullable=False)
     checkout_time = db.Column(db.DateTime, nullable=False)

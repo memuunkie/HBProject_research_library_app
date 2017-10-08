@@ -144,6 +144,7 @@ function displayCurrentVisitors(results) {
     var visitorList = $("#current-visitors");
 
     // clear out the past visitor list
+    $("#msg-bad").empty();
     visitorList.empty();
     // check data
     console.log(results);
@@ -170,11 +171,19 @@ function displayCurrentVisitors(results) {
                             $.post(url, buttonVal, function(res){
                                 //show what got back from server
                                 console.log(res);
-                                console.log(res['user_id']);
-                                $("#li-"+ res['user_id']).empty().html("User has been checked out.");
-                                $("#btn1-" + res['user_id']).remove();
-                                $("#btn2-" + res['user_id']).remove();
-                                $("#btn3-" + res['user_id']).remove();
+                                if (res == 'None') {
+                                    $("#msg-bad").html("User has outstanding books and cannot be checked out.");
+
+                                } else {
+
+                                    console.log(res);
+                                    console.log(res['user_id']);
+                                    $("#li-"+ res['user_id']).empty().html("User has been checked out.");
+                                    $("#btn1-" + res['user_id']).remove();
+                                    $("#btn2-" + res['user_id']).remove();
+                                    $("#btn3-" + res['user_id']).remove();
+                                    }
+
                             });
                         }
                     }

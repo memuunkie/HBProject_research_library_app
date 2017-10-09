@@ -4,6 +4,8 @@
 {% block content %}
 
 
+    
+
     <h1>Welcome</h1>
 
 
@@ -60,6 +62,8 @@
         </div>
 
     <hr>
+
+    {% if "user" not in session %}
     <h1>Need to Work on These</h1>
 
     <div id="user-login">
@@ -85,6 +89,15 @@
         </form>
 
     </div>
+
+    {% else %}
+
+        <form action="/log-out" method="GET">
+            <input type="hidden" name="logout">
+            <input type="submit" value="Log Out">
+        </form>
+
+    {% endif %}
 
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/library-functions.js"></script>

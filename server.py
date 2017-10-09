@@ -341,6 +341,16 @@ def return_books():
         return "Book has been returned."
 
 
+@app.route('/log-out', methods=['GET'])
+def log_out():
+    """Log out user"""
+
+    if session.get('user'):
+        del session['user']
+        flash('You have been logged out')
+        print session
+        return redirect('/')
+
 
 #################################################################
 #Helper functions

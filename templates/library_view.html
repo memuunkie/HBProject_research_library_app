@@ -5,10 +5,39 @@
 
     <h1>Library View</h1>
 
-    <!-- Display the current date & time -->
-    <p>Today's Date:</p>
+    <div> <!-- Display visitors currently checked in -->
+        <h3>Today's Visitors</h3>
+        <!-- Uses displayCurrentVisitors and getCurrentVisitors in JS -->
+        <button id="display-visits" class="btn btn-primary">Current Visitors</button> 
 
+        <div id="msg-bad"></div>
 
+        <div>
+            <ul id="current-visitors"></ul>
+        </div>
+    </div>
+
+    <div><!-- Create a Visit -->
+        <h3>Visitor Check-In</h3>
+        <form id="user-search" action="/find-users" method="GET">
+            <!-- Sends form data as GET -->
+            <!-- Uses showUserResults and displayuserResults in JS -->
+            <div class="form-group">
+                Search by:
+                <!-- Queries 'users' table in DB -->
+                <br>Email:<input id="search-email" class="form-control" type="text" name="email" placeholder="email">
+                <br>First Name:<input id="search-fname"class="form-control" type="text" name="fname" placeholder="first name">
+                <br>Last Name:<input id="search-lname"class="form-control" type="text" name="lname" placeholder="last name">
+            </div>
+                <button class="btn btn-primary" type="submit">Search Users</button>   
+        </form>
+    </div>
+
+        <div>
+            <ul id="result-user-list"></ul>
+        </div>
+
+    <hr>
     <div>
         <!-- Create a Visit -->
         <h3>Patron Search</h3>
@@ -61,36 +90,6 @@
         </form>
     </div>
 
-<!--     <div>
-        <h3>Today's Patrons</h3>
-        <br>Patron1 
-        <br>Patron2 
-        <br>Patron3 
-            <button class="btn btn-primary"></button>
-            <button class="btn btn-primary"></button>
-            <button class="btn btn-primary"></button>
-        <br> ...new patrons...
-            <button id="add-patron-visit" class="btn btn-primary">Add Patron to List</button>
-    </div>
-
-    <div>
-        <h3>Return Book</h3>
-        <br>Patron Name
-        <br>Book1 
-        <br>Book2 
-        <br>Book3 
-            <button id="return-book" class="btn btn-primary">Return Book</button>
-    </div>
-
-    <div>
-        <h3>Patron Check Out</h3>
-        <br>Patron Name
-        <br>"All books returned"
-            <button id="check-out-patron" class="btn btn-primary">Check Out Patron</button>
-        <br>"Books still outstanding"
-            <button class="btn btn-primary"></button>
-    </div>
- -->
-<!-- <script src="http://code.jquery.com/jquery.js"></script>
-<script src="/static/library-functions.js"></script> -->
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="/static/library-functions.js"></script>
 {% endblock %}

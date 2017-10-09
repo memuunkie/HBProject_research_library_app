@@ -3,68 +3,7 @@
 
 {% block content %}
 
-
-    
-
-    <h1>Welcome</h1>
-
-
-
-    <div>
-        <h3>Today's Visitors</h3>
-        <!-- Uses displayCurrentVisitors and getCurrentVisitors in JS -->
-        <button id="display-visits" class="btn btn-primary">Current Visitors</button> 
-
-        <div id="msg-bad"></div>
-
-
-        <div>
-            <ul id="current-visitors"></ul>
-        </div>
-    </div>
-    <div>
-        <!-- Create a Visit -->
-        <h3>Patron Search</h3>
-        <form id="user-search" action="/find-users" method="GET">
-            <!-- Sends form data as GET -->
-            <!-- Uses showUserResults and displayuserResults in JS -->
-            <div class="form-group">
-                Search by:
-                <!-- Queries 'users' table in DB -->
-                <br>Email:<input id="search-email" class="form-control" type="text" name="email" placeholder="email">
-                <br>First Name:<input id="search-fname"class="form-control" type="text" name="fname" placeholder="first name">
-                <br>Last Name:<input id="search-lname"class="form-control" type="text" name="lname" placeholder="last name">
-            </div>
-                <button class="btn btn-primary" type="submit">Search Users</button>   
-        </form>
-    </div>
-
-        <div>
-            <ul id="result-user-list"></ul>
-        </div>
-
-    <div>
-        <h3>Book Search</h3>
-        <form id="book-search" action="/find-books", method="GET">
-            <div class="form-group">
-                Search for:
-                <br>Title<input id="search-title" class="form-control" type="text" name="title" placeholder="title">
-                <br>Author<input id="search-author" class="form-control" type="text" name="author" placeholder="author">
-                <br>Call Number<input id="search-callnum" class="form-control" type="text" name='call-number' placeholder="call number">
-                <br><button class="btn btn-primary" type="submit">Search Books</button>
-
-            </div>
-        </form>
-    </div>
-
-        <div>
-            <ul id="result-book-list"></ul>
-        </div>
-
-    <hr>
-
     {% if "user" not in session %}
-    <h1>Need to Work on These</h1>
 
     <div id="user-login">
         <h3>Please sign in</h3>
@@ -92,10 +31,52 @@
 
     {% else %}
 
+    <hr>
         <form action="/log-out" method="GET">
             <input type="hidden" name="logout">
             <input type="submit" value="Log Out">
         </form>
+
+    <hr>
+    
+
+    <h1>Welcome</h1>
+
+
+
+    <div>
+        <h3>Today's Visitors</h3>
+        <!-- Uses displayCurrentVisitors and getCurrentVisitors in JS -->
+        <button id="display-visits" class="btn btn-primary">Current Visitors</button> 
+
+        <div id="msg-bad"></div>
+
+
+        <div>
+            <ul id="current-visitors"></ul>
+        </div>
+    </div>
+    <div><!-- Create a Visit -->
+        <h3>Patron Search</h3>
+        <form id="user-search" action="/find-users" method="GET">
+            <!-- Sends form data as GET -->
+            <!-- Uses showUserResults and displayuserResults in JS -->
+            <div class="form-group">
+                Search by:
+                <!-- Queries 'users' table in DB -->
+                <br>Email:<input id="search-email" class="form-control" type="text" name="email" placeholder="email">
+                <br>First Name:<input id="search-fname"class="form-control" type="text" name="fname" placeholder="first name">
+                <br>Last Name:<input id="search-lname"class="form-control" type="text" name="lname" placeholder="last name">
+            </div>
+                <button class="btn btn-primary" type="submit">Search Users</button>   
+        </form>
+    </div>
+
+        <div>
+            <ul id="result-user-list"></ul>
+        </div>
+
+    <hr>
 
     {% endif %}
 

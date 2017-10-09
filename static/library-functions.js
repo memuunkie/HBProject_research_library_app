@@ -45,7 +45,7 @@ function displayUserResults(results) {
                         }
         });
 
-        btn.html('Add Visit');
+        btn.html('Check In');
 
         userList.append("<li>" + results[i]['fname'] + 
                         " " + results[i]['lname'] + "<br>")
@@ -155,16 +155,16 @@ function displayCurrentVisitors(results) {
                     + " " + results[i]['visit_timein']);
 
         var btn1 = $("<button>", {
-                    id: 'btn1-' + results[i]['user_id'],
-                    name: 'user-id',
-                    value: results[i]['user_id'],
+                    id: 'btn1-' + results[i]['visit_id'],
+                    name: 'visit-id',
+                    value: results[i]['visit_id'],
                     on: {
                         click: function() {
                             //check to see if right value sent
                             console.log(this.value);
                             var url = "/checkout.json";
                             var buttonVal = {
-                                'user-id': this.value
+                                'visit-id': this.value
                             }
                             //show what is getting sent to server
                             console.log(buttonVal);
@@ -266,6 +266,58 @@ function loginUser(evt) {
 
 $("#log-in").on("submit", loginUser);
 
+
+/*************
+    Display all outstanding books for a visit and allow for return
+*************/
+
+    function displayOutstandingBooks(results) {
+        // show all outstanding books for a users with buttons to return
+        var bookList = $("#result-book-list");
+        bookList.empty();
+
+        console.log(results);
+
+        for (var i = 0; i < results.length; i++) {
+
+            var btn = $("<button>", {
+                        id: results[i]["book_id"],
+                        name: "book-id",
+                        value: results[i]["book_id"],
+                        on: {
+                            click: function() {
+                                var url = "/book-return.json";
+                                var buttonVal = {
+                                    'book-id': this.value
+                                }
+                                var buttonId = this.value;
+                                $.post(url, buttonVal, function(res) {
+                                    $("#" + buttonId).remove();
+                                    $("#li-" + buttonId).empty().html(res);
+                                });
+                            }
+                        }
+            });
+
+            btn.html('Return Book');
+
+            bookList.append("<li id=\"li-" + results[i]['book_id'] + "\">"
+                            + results[i]['title'] + "<br>" 
+                            + results[i]['author'] + "<br>" 
+                            + results[i]['call_num']).append(btn);
+
+        }
+
+    }
+
+    function getOutstandingBooks() {
+        //send query to server for all current checkin in visitors
+
+        var formInput = $("#visit-id").html();
+        var url = "/show-books.json?visit-id=" + formInput;
+        $.get(url, displayOutstandingBooks);
+
+    }
 
 /*************
     Some helper functions to get it out of the way

@@ -38,104 +38,7 @@ def library_view():
     return render_template('library_view.html')
 
 
-@app.route('/add-visit', methods=['GET'])
-def visit_form():
-    """Show visit form"""
-
-    return render_template('visit_results.html')
-
-
-@app.route('/add-visit', methods=['POST'])
-def add_visit():
-    """Add a Visit to the database"""
-
-    print "Got to the POST"
-
-    user = request.form.get('user-id')
-    admin = request.form.get('admin-id')
-    
-    visit = Visit(user_id=user, admin_id=admin, 
-                  visit_timein=datetime.now())
-
-    db.session.add(visit)
-    db.session.commit()
-
-    return redirect('/visit')
-
-
-@app.route('/visit')
-def show_visits():
-    """Lisit of all visitors"""
-
-    today = datetime.now()
-
-    visits = Visit.query.all()
-
-    return render_template('visit_results.html', visits=visits)
-
-
-@app.route('/visit/<int:visit_id>', methods=['GET'])
-def show_visit(visit_id):
-    """Show the visit details"""
-
-    visit_items = VisitItem.query.filter_by(visit_id=visit_id).all()
-    visit_deets = Visit.query.filter_by(visit_id=visit_id).one()
-
-    return render_template('visit_detail.html', visit_deets=visit_deets,
-                            visit_items=visit_items)
-
-
-@app.route('/visit/<int:visit_id>', methods=['POST'])
-def add_items(visit_id):
-    """Add a book to a visit"""
-
-    book_id = int(request.form['book-id'])
-
-    book = VisitItem.query.filter_by(book_id=book_id).first()
-
-    if book:
-        flash("Book already in use.")
-    else:
-        visit_item = VisitItem(visit_id=visit_id, book_id=book_id,
-                               checkout_time=datetime.now())
-        flash("Book added.")
-        db.session.add(visit_item)
-
-    db.session.commit()
-
-    return redirect('/visit/%s' % visit_id)
-
-@app.route('/search-books', methods=['GET'])
-def search_books():
-    """Do a search on books and return a list of matches"""
-
-    title = get_return_wildcard('title')
-    author = get_return_wildcard('author')
-    call_num = get_return_wildcard('call-num')
-
-    books = Book.query.filter(or_(Book.title.ilike(title), 
-                                 Book.author.ilike(author),
-                                 Book.call_num.ilike(call_num))).all()
-
-    return render_template('book_results.html', books=books)
-
-
-@app.route('/search-users', methods=['GET'])
-def search_users():
-    """Do a search of user and return a list of possible matches"""
-
-    email = get_return_wildcard('email')
-    fname = get_return_wildcard('fname')
-    lname = get_return_wildcard('lname')
-
-    users = User.query.filter(or_(User.email.ilike(email), 
-                                    User.fname.ilike(fname), 
-                                    User.lname.ilike(lname))).all()
-
-    return render_template('user_results.html', users=users)
-
-
-#Everything below are for AJAX calls and rendering only on home.html
+#Everything below are for AJAX calls 
 ###############################################################
 @app.route('/display-visitors')
 def display_visitors():
@@ -208,9 +111,11 @@ def log_in_user():
 
     if user is None:
         print 'No such user'
+        flash("Log does not exist. Please register.")
         return 'None'
     else:
         session['user'] = user.user_id
+        flash("You have been logged in.")
         return 'True'
     # if user.type_id == 2 render_template("user page")
     # if user.type_id == 1 render_template("library page")
@@ -221,23 +126,24 @@ def checkout_user():
     """Checkout user"""
     """Does not account for visit items"""
 
-    user_id = request.form.get('user-id')
+    visit_id = request.form.get('visit-id')
 
-    visit = db.session.query(Visit).filter(Visit.user_id==user_id,
+    visit = db.session.query(Visit).filter(Visit.visit_id==visit_id,
                                         Visit.visit_timeout == None).first()
 
-    items = db.session.query(VisitItem).filter(VisitItem.visit_id == Visit.visit_id,
+    items = db.session.query(VisitItem).filter(VisitItem.visit_id == visit_id,
                                                VisitItem.is_returned == False).all()
 
-    if items:
-        return 'None'
-    else:
+    if len(items) == 0:
         visit.visit_timeout = datetime.now()
 
         db.session.commit()
 
-        print "User", user_id, "has been checked out"
+        print "User", visit.user_id, "has been checked out"
         return jsonify(visit.serialize())
+
+    else:
+        return 'None'
 
 
 @app.route('/find-books.json', methods=['GET'])

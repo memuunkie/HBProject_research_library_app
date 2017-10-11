@@ -242,9 +242,10 @@ $("#display-visits").on('click', getCurrentVisitors);
 
 function loginResults(results) {
     //check to see which view to render
+
     if (results == 'None') {
-        $("#user-login").append("<p>No such user. Please register.</p>");
-    } else if (results['type'] == 1) {
+        $("#msg").empty().append("<p>No such user. Please register.</p>");
+    } else if (results['type_id'] == 1) {
         location.replace('/library');
     } else {
         location.replace('/user');

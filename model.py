@@ -49,7 +49,7 @@ class User(db.Model):
                 'lname': self.lname,
                 'create_date': str(self.create_date),
                 'visit_timein': str(self.visit_timein),
-                'type_id': self.user_type.type_name
+                'type_id': self.user_type.type_id
         }
 
         return info

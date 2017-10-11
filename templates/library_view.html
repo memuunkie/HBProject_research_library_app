@@ -3,6 +3,14 @@
 
 {% block content %}
 
+    <hr>
+        <form action="/log-out" method="GET">
+            <input type="hidden" name="logout">
+            <input type="submit" value="Log Out">
+        </form>
+
+    <hr>
+
     <h1>Library View</h1>
 
     <div> <!-- Display visitors currently checked in -->
@@ -38,57 +46,6 @@
         </div>
 
     <hr>
-    <div>
-        <!-- Create a Visit -->
-        <h3>Patron Search</h3>
-        <form id="user-search" action="/search-users" method="GET">
-            <!-- Sends form data as GET -->
-            
-            <div class="form-group">
-                Search by:
-                <!-- Queries 'users' table -->
-                <br>Email:<input id="search-email" class="form-control" type="text" name="email" placeholder="email">
-                <br>First Name:<input id="search-fname"class="form-control" type="text" name="fname" placeholder="first name">
-                <br>Last Name:<input id="search-lname"class="form-control" type="text" name="lname" placeholder="last name">
-            </div>
-            <div class="form-group">
-                <input id="check-in-patron" class="btn btn-primary" type="submit" value="Search Users">
-                <!-- <button>test</button> -->
-            </div>
-        </form>
-    </div>
-
-
-        <ul id="result-user-list"></ul>
-
-    <div>
-        <h3>Book Search</h3>
-        <form id="book-search" action="/search-books", method="GET">
-            <div class="form-group">
-                Search for:
-                <br>Title<input id="search-title" class="form-control" type="text" name="title" placeholder="title">
-                <br>Author<input id="search-author" class="form-control" type="text" name="author" placeholder="author">
-                <br>Call Number<input id="search-callnum" class="form-control" type="text" name='call-number' placeholder="call number">
-                <!-- <br>Keyword -->
-                <br><input id="add-book" class="btn btn-primary" type="submit" value="Search Books">
-                <!-- <button>test</button> -->
-            </div>
-        </form>
-    </div>
-
-    <div>
-        <h3>Add a Visit</h3>
-        <form id="visit-form" action="/add-visit", method="POST">
-            <div class="form-group">
-                Add a User:
-                <input id="add-visit-user" class="form-control" type="text" name="user-id" placeholder="user id">
-                <br>Add a Admin:
-                <input id="add-visit-admin" class="form-control" type="text" name="admin-id" placeholder="admin id">
-                <br><input id="add-visit-db" class="btn btn-primary" type="submit" value="Add Visit">
-                <!-- <button>test</button> -->
-            </div>
-        </form>
-    </div>
 
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/library-functions.js"></script>

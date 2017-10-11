@@ -32,7 +32,7 @@ class User(db.Model):
     fname = db.Column(db.String(50), nullable=False)
     lname = db.Column(db.String(50), nullable=False)
     create_date = db.Column(db.DateTime, nullable=False)
-    visit_timein = db.Column(db.DateTime, nullable=True)
+    visit_timein = db.Column(db.DateTime, nullable=True) # delete
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(50), nullable=False)
     type_id = db.Column(db.Integer, db.ForeignKey('types.type_id'), default=2)

@@ -177,11 +177,11 @@ function displayCurrentVisitors(results) {
                                 } else {
 
                                     console.log(res);
-                                    console.log(res['user_id']);
-                                    $("#li-"+ res['user_id']).empty().html("User has been checked out.");
-                                    $("#btn1-" + res['user_id']).remove();
-                                    $("#btn2-" + res['user_id']).remove();
-                                    $("#btn3-" + res['user_id']).remove();
+                                    console.log(res['visit_id']);
+                                    $("#li-"+ res['visit_id']).empty().html("User has been checked out.");
+                                    $("#btn1-" + res['visit_id']).remove();
+                                    $("#btn2-" + res['visit_id']).remove();
+                                    $("#btn3-" + res['visit_id']).remove();
                                     }
 
                             });
@@ -190,9 +190,9 @@ function displayCurrentVisitors(results) {
             });
 
         var btn2 = $("<button>", {
-                    id: 'btn2-' + results[i]['user_id'],
+                    id: 'btn2-' + results[i]['visit_id'],
                     name: 'add-book',
-                    value: results[i]['user_id'],
+                    value: results[i]['visit_id'],
                     on: {
                         click: function() {
                             var url = "/book-search?user-id="+ this.value;
@@ -202,9 +202,9 @@ function displayCurrentVisitors(results) {
             });
 
         var btn3 = $("<button>", {
-                    id: 'btn3-' + results[i]['user_id'],
+                    id: 'btn3-' + results[i]['visit_id'],
                     name: 'return-book',
-                    value: results[i]['user_id'],
+                    value: results[i]['visit_id'],
                     on: {
                         click: function() {
                             var url = "/return-book?user-id="+ this.value;
@@ -218,7 +218,7 @@ function displayCurrentVisitors(results) {
         btn2.html('Add Book');
         btn3.html('Return Books');
 
-        visitorList.append("<li id=\"li-" + results[i]['user_id'] + "\">"
+        visitorList.append("<li id=\"li-" + results[i]['visit_id'] + "\">"
                         + results[i]['fname'] + " " + results[i]['lname'] 
                         + 
                         " in at " + formatDate(results[i]['visit_timein']))
@@ -241,15 +241,14 @@ $("#display-visits").on('click', getCurrentVisitors);
 *************/
 
 function loginResults(results) {
-
+    //check to see which view to render
     if (results == 'None') {
         $("#user-login").append("<p>No such user. Please register.</p>");
+    } else if (results['type'] == 1) {
+        location.replace('/library');
     } else {
-        $('#user-login').empty();
-        $("#user-register").remove();
-        $("#user-login").html('You are logged in.');
+        location.replace('/user');
     }
-
 }
 
 function loginUser(evt) {
@@ -257,8 +256,6 @@ function loginUser(evt) {
     evt.preventDefault();
 
     var formInput = $("#log-in").serialize();
-
-    console.log(formInput);
 
     $.post("/log-in.json", formInput, loginResults);
 

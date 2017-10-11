@@ -28,7 +28,11 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def index():
     """Home"""
-    return render_template("home.html")
+
+    if session.get('user'):
+        return redirect('/library')
+    else:
+        return render_template("home.html")
 
 
 @app.route('/library')
@@ -36,6 +40,13 @@ def library_view():
     """render the librarian view"""
 
     return render_template('library_view.html')
+
+
+@app.route('/user')
+def user_view():
+    """render the user view"""
+
+    return render_template('user_detail.html')
 
 
 #Everything below are for AJAX calls 
@@ -111,12 +122,12 @@ def log_in_user():
 
     if user is None:
         print 'No such user'
-        flash("Log does not exist. Please register.")
         return 'None'
     else:
         session['user'] = user.user_id
-        flash("You have been logged in.")
-        return 'True'
+        session['type'] = user.type_id
+        print session
+        return jsonify(user.serialize())
     # if user.type_id == 2 render_template("user page")
     # if user.type_id == 1 render_template("library page")
 
@@ -124,7 +135,6 @@ def log_in_user():
 @app.route('/checkout.json', methods=['POST'])
 def checkout_user():
     """Checkout user"""
-    """Does not account for visit items"""
 
     visit_id = request.form.get('visit-id')
 
@@ -253,7 +263,7 @@ def log_out():
 
     if session.get('user'):
         del session['user']
-        flash('You have been logged out')
+        del session['type']
         print session
         return redirect('/')
 

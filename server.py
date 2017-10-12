@@ -33,7 +33,7 @@ def index():
         if session['type'] == 1:
             return redirect('/library')
         else:
-            return redirect('user')
+            return redirect('/user')
     else:
         return render_template("home.html")
 
@@ -42,17 +42,26 @@ def index():
 def library_view():
     """render the librarian view"""
 
-    if session['type']== 1:
-        return render_template('library_view.html')
+    if session.get('user'):
+        if session['type'] == 1:
+            return render_template('library_view.html')
+        else:
+            return redirect('/user')            
     else:
-        return redirect('/user')
+        return redirect('/')
 
 
 @app.route('/user')
 def user_view():
     """render the user view"""
 
-    return render_template('user_detail.html')
+    if session.get('user'):
+        if session['type'] == 2:
+            return render_template('user_detail.html')
+        else:
+            return redirect('/library')
+    else:
+        return redirect('/')
 
 
 #Everything below are for AJAX calls 
@@ -60,6 +69,8 @@ def user_view():
 @app.route('/display-visitors')
 def display_visitors():
     """List of current visitors"""
+    # used on JS getCurrentVistors
+    # html btn "display-visits"
 
     visits = db.session.query(Visit).filter(Visit.visit_timeout==None).all()
 
@@ -77,6 +88,8 @@ def display_visitors():
 @app.route('/find-users.json', methods=['GET'])
 def find_user():
     """Do a search of user and return a list of possible matches"""
+    # used on JS showUserResults
+    # html form "user-search"
 
     email = get_return_wildcard('email')
     fname = get_return_wildcard('fname')
@@ -103,6 +116,8 @@ def find_user():
 @app.route('/add-user.json', methods=['POST'])
 def add_user():
     """Add a new user"""
+    # used on JS registerUser
+    # html form "add-user"
 
     email = request.form.get('email')
     fname = (request.form.get('fname')).capitalize()
@@ -135,6 +150,8 @@ def add_user():
 @app.route('/new-visit.json', methods=['POST'])
 def add_new_visit():
     """Add a Visit to the database"""
+    # sub-AJAX on addUserResults
+    # rendered with results
 
     user = request.form.get('user-id')
     admin = session['user']

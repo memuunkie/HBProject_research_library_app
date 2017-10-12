@@ -84,6 +84,7 @@ function showUserResults(evt) {
 }
 
 $("#user-search").on('submit', showUserResults);
+//library_view.html
 
 /**************
     For doing a search of Books
@@ -251,6 +252,7 @@ function getCurrentVisitors(evt) {
 }
 
 $("#display-visits").on('click', getCurrentVisitors);
+//library_view.html
 
 /*************
     For logging in
@@ -335,6 +337,7 @@ function registerUser(evt) {
 }
 
 $("#add-user").on("submit", registerUser)
+//library_view.html
 
 /*************
     Display all outstanding books for a visit and allow for return
@@ -387,6 +390,7 @@ function getOutstandingBooks() {
     $.get(url, displayOutstandingBooks);
 
 }
+//return_books.html & book_search.html
 
 /*************
     Some helper functions to get it out of the way

@@ -13,44 +13,59 @@ function displayUserResults(results) {
 
     //to check data against what rendered
     console.log(results);
+    console.log(results.length);
 
-    for(var i = 0; i < results.length; i++) {
+        if (typeof(results) == 'string') {
 
-        var btn = $("<button>", {
-                    name: 'user-id',
-                    value: results[i]['user_id'],
-                    on: {
-                        click: function() {
-                            //check to see if right value sent
-                            console.log(this.value);
-                            var url = "/new-visit.json";
-                            var buttonVal = {
-                                'user-id': this.value
-                                }
-                            //show what is getting sent to server
-                            console.log(buttonVal);
-                            $.post(url, buttonVal, function(res){
-                                //show what got back from server
-                                console.log(res);
+            console.log("no such user");
+            $("#visit-msg").empty().html("No such user is registered.");            
 
-                                if (res == 'None') {
-                                    userList.empty();
-                                    userList.html("<p>USER ALREADY CHECKED IN</p>");
-                                    } else {
-                                    userList.empty();
-                                    userList.html("<p>User has been added</p>");
-                                    }                                    
-                                });
+        } else if (results.length == 0) {
+
+            console.log('clear');
+
+        } else {
+
+            for(var i = 0; i < results.length; i++) {
+        
+                    var btn = $("<button>", {
+                                name: 'user-id',
+                                value: results[i]['user_id'],
+                                on: {
+                                    click: function() {
+                                        //check to see if right value sent
+                                        console.log(this.value);
+                                        var url = "/new-visit.json";
+                                        var buttonVal = {
+                                            'user-id': this.value
                                             }
-                        }
-        });
-
-        btn.html('Check In');
-
-        userList.append("<li>" + results[i]['fname'] + 
-                        " " + results[i]['lname'] + "<br>")
-                        .append(btn);
-    }
+                                        //show what is getting sent to server
+                                        console.log(buttonVal);
+                                        $.post(url, buttonVal, function(res){
+                                            //show what got back from server
+                                            console.log(res);
+        
+                                            if (res == 'None') {
+                                                userList.empty();
+                                                userList.html("<p>USER ALREADY CHECKED IN</p>");
+                                                } else {
+                                                userList.empty();
+                                                userList.html("<p>User has been added</p>");
+                                                }                                    
+                                            });
+                                                        }
+                                    }
+                    });
+        
+                    btn.html('Check In');
+        
+                    $('#visit-msg').empty();
+                    document.getElementById("user-search").reset();
+                    userList.append("<li>" + results[i]['fname'] + 
+                                    " " + results[i]['lname'] + "<br>")
+                                    .append(btn);
+                }
+        }
 }
 
 function showUserResults(evt) {
@@ -97,6 +112,7 @@ function displayBookResults(results) {
                                     'visit-id': parseInt($('#visit-id').html()),
                                     }
                                 $.post(url, buttonVal, function(res) {
+                                        document.getElementById("book-search").reset();
                                         $('#result-book-list').empty();
                                         $('#result-book-list').html("<p>" + res + "</p>");
                                         console.log(res)
@@ -195,7 +211,7 @@ function displayCurrentVisitors(results) {
                     value: results[i]['visit_id'],
                     on: {
                         click: function() {
-                            var url = "/book-search?user-id="+ this.value;
+                            var url = "/book-search?visit-id="+ this.value;
                             $.get(window.location.href = url);
                         }
                     }
@@ -207,7 +223,7 @@ function displayCurrentVisitors(results) {
                     value: results[i]['visit_id'],
                     on: {
                         click: function() {
-                            var url = "/return-book?user-id="+ this.value;
+                            var url = "/return-book?visit-id="+ this.value;
                             $.get(window.location.href = url);
                         }
                     }
@@ -245,7 +261,7 @@ function loginResults(results) {
 
     if (results == 'None') {
         $("#msg").empty().append("<p>No such user. Please register.</p>");
-    } else if (results['type_id'] == 1) {
+    } else if (results['type_id'] === 1) {
         location.replace('/library');
     } else {
         location.replace('/user');
@@ -266,56 +282,111 @@ $("#log-in").on("submit", loginUser);
 
 
 /*************
+    Add new users
+*************/
+
+function addUserResults(results) {
+
+    var regMsg = $("#register-msg");
+    
+    if (typeof(results) == 'string') {
+        regMsg.html("<p>" + results + "</p>");
+    } else {
+        var btn = $("<button>", {
+                            name: 'user-id',
+                            value: results['user_id'],
+                            on: {
+                            click: function() {
+                                //check to see if right value sent
+                                console.log(this.value);
+                                var url = "/new-visit.json";
+                                var buttonVal = {
+                                    'user-id': this.value
+                                    }
+                                //show what is getting sent to server
+                                console.log(buttonVal);
+                                $.post(url, buttonVal, function(res){
+                                    //show what got back from server
+                                    console.log(res);
+                                    regMsg.empty().html("<p>User visit has been added</p>");                                       
+                                });
+                                                }
+                            }
+        });
+
+        btn.html("Check In");
+
+        console.log(results);
+        document.getElementById("add-user").reset();
+        regMsg.empty().append("<p>" + results['fname'] + " " 
+                        + results['lname'] + " has been added."
+                        + "</p>").append(btn);
+    }
+
+}
+
+function registerUser(evt) {
+    //Register a new user - Library
+    evt.preventDefault();
+
+    var formInput = $("#add-user").serialize();
+
+    $.post("/add-user.json", formInput, addUserResults);
+}
+
+$("#add-user").on("submit", registerUser)
+
+/*************
     Display all outstanding books for a visit and allow for return
 *************/
 
-    function displayOutstandingBooks(results) {
-        // show all outstanding books for a users with buttons to return
-        var bookList = $("#result-book-list");
-        bookList.empty();
+function displayOutstandingBooks(results) {
+    // show all outstanding books for a users with buttons to return
+    var bookList = $("#outstanding-books");
+    bookList.empty();
 
-        console.log(results);
+    console.log(results);
 
-        for (var i = 0; i < results.length; i++) {
+    for (var i = 0; i < results.length; i++) {
 
-            var btn = $("<button>", {
-                        id: results[i]["book_id"],
-                        name: "book-id",
-                        value: results[i]["book_id"],
-                        on: {
-                            click: function() {
-                                var url = "/book-return.json";
-                                var buttonVal = {
-                                    'book-id': this.value
-                                }
-                                var buttonId = this.value;
-                                $.post(url, buttonVal, function(res) {
-                                    $("#" + buttonId).remove();
-                                    $("#li-" + buttonId).empty().html(res);
-                                });
+        var btn = $("<button>", {
+                    id: results[i]["book_id"],
+                    name: "book-id",
+                    value: results[i]["book_id"],
+                    on: {
+                        click: function() {
+                            var url = "/book-return.json";
+                            var buttonVal = {
+                                'book-id': this.value
                             }
+                            var buttonId = this.value;
+                            $.post(url, buttonVal, function(res) {
+                                $("#" + buttonId).remove();
+                                $("#li-" + buttonId).empty().html(res);
+                            });
                         }
-            });
+                    }
+        });
 
-            btn.html('Return Book');
+        btn.html('Return Book');
 
-            bookList.append("<li id=\"li-" + results[i]['book_id'] + "\">"
-                            + results[i]['title'] + "<br>" 
-                            + results[i]['author'] + "<br>" 
-                            + results[i]['call_num']).append(btn);
-
-        }
-
-    }
-
-    function getOutstandingBooks() {
-        //send query to server for all current checkin in visitors
-
-        var formInput = $("#visit-id").html();
-        var url = "/show-books.json?visit-id=" + formInput;
-        $.get(url, displayOutstandingBooks);
+        bookList.append("<li id=\"li-" + results[i]['book_id'] + "\">"
+                        + results[i]['title'] + "<br>" 
+                        + results[i]['author'] + "<br>" 
+                        + results[i]['call_num']).append(btn);
 
     }
+
+}
+
+function getOutstandingBooks() {
+    //send query to server for all current checkin in visitors
+
+    var formInput = $("#visit-id").html();
+    var url = "/show-books.json?visit-id=" + formInput;
+    $.get(url, displayOutstandingBooks);
+
+}
 
 /*************
     Some helper functions to get it out of the way

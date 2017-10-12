@@ -37,13 +37,36 @@
                 <br>First Name:<input id="search-fname"class="form-control" type="text" name="fname" placeholder="first name">
                 <br>Last Name:<input id="search-lname"class="form-control" type="text" name="lname" placeholder="last name">
             </div>
-                <button class="btn btn-primary" type="submit">Search Users</button>   
+                <button class="btn btn-primary" type="submit">Search Users</button>
         </form>
     </div>
 
-        <div>
+        <div id='visit-msg'></div>
             <ul id="result-user-list"></ul>
         </div>
+
+    <hr>
+        <div id="new-user">
+            <h3>Register New User</h3>
+            <form id="add-user" action="/add-user" method="POST">
+                <!-- Sends form data as POST -->
+                <!-- Uses showUserResults and displayuserResults in JS -->
+                <div class="form-group">
+                    <!-- Queries 'users' table in DB -->
+                    <br>First Name:<input id="add-fname"class="form-control" type="text" name="fname" placeholder="first name" required>
+                    <br>Last Name:<input id="add-lname"class="form-control" type="text" name="lname" placeholder="last name" required>
+                    <br>Email:<input id="add-email" class="form-control" type="email" name="email" placeholder="email" required>
+                    <br>User type
+                    <select name="type">
+                        <option value='user'>User</option>
+                        <option value='admin'>Admin</option>
+                    </select>
+                </div>
+                    <button class="btn btn-primary" type="submit">Add User</button>   
+            </form>
+        </div>
+
+        <div id='register-msg'></div>
 
     <hr>
 

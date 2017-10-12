@@ -30,7 +30,10 @@ def index():
     """Home"""
 
     if session.get('user'):
-        return redirect('/library')
+        if session['type'] == 1:
+            return redirect('/library')
+        else:
+            return redirect('user')
     else:
         return render_template("home.html")
 
@@ -39,7 +42,10 @@ def index():
 def library_view():
     """render the librarian view"""
 
-    return render_template('library_view.html')
+    if session['type']== 1:
+        return render_template('library_view.html')
+    else:
+        return redirect('/user')
 
 
 @app.route('/user')
@@ -80,16 +86,55 @@ def find_user():
                                     User.fname.ilike(fname), 
                                     User.lname.ilike(lname))).all()
 
-    users = [u.serialize() for u in users]
+    if email == '' and fname == '' and lname == '':
 
-    return jsonify(users)
+        return jsonify([])
+
+    elif len(users) == 0:
+
+        return "No such user is registered."
+
+    else:
+        users = [u.serialize() for u in users]
+
+        return jsonify(users)
+
+
+@app.route('/add-user.json', methods=['POST'])
+def add_user():
+    """Add a new user"""
+
+    email = request.form.get('email')
+    fname = (request.form.get('fname')).capitalize()
+    lname = (request.form.get('lname')).capitalize()
+    usertype = request.form.get('type')
+
+    user = User.query.filter(User.email.ilike(email)).first()
+
+    my_test = User.query.filter(User.user_id == 1001).first()
+
+    if user is None:
+        if usertype == 'admin':
+            type_id = 2
+            new_user = User(email=email, fname=fname, lname=lname,
+                            password='chang3@dminCHSpswd', type_id=type_id,
+                            create_date=datetime.now())
+        else:
+            new_user = User(email=email, fname=fname, lname=lname,
+                            password='y0urt3mpCHSpswd', 
+                            create_date=datetime.now())
+        db.session.add(new_user)
+        db.session.commit()
+        user = User.query.filter(User.email == email).first()
+        return jsonify(user.serialize())
+        print user
+    else:
+        return "This email is already registered."
 
 
 @app.route('/new-visit.json', methods=['POST'])
 def add_new_visit():
     """Add a Visit to the database"""
-
-    print "Adding via AJAX"
 
     user = request.form.get('user-id')
     admin = session['user']
@@ -199,9 +244,9 @@ def add_book():
 def find_visit_books():
     """render the book search page"""
 
-    user = request.args.get('user-id')
+    user = request.args.get('visit-id')
 
-    visit = Visit.query.filter(Visit.user_id == user,
+    visit = Visit.query.filter(Visit.visit_id == user,
                                Visit.visit_timeout == None).first()
 
     return render_template('book_search.html', visit=visit)
@@ -211,9 +256,9 @@ def find_visit_books():
 def checked_books():
     """outstanding books from user"""
 
-    user = request.args.get('user-id')
+    user = request.args.get('visit-id')
 
-    visit = Visit.query.filter(Visit.user_id == user,
+    visit = Visit.query.filter(Visit.visit_id == user,
                                Visit.visit_timeout == None).first()
 
     visit_items = VisitItem.query.filter(VisitItem.visit_id == visit.visit_id,

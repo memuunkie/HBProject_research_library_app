@@ -64,13 +64,24 @@ def user_view():
         return redirect('/')
 
 
+@app.route('/log-out', methods=['GET'])
+def log_out():
+    """Log out user"""
+
+    if session.get('user'):
+        del session['user']
+        del session['type']
+        print session
+        return redirect('/')
+
+
 #Everything below are for AJAX calls 
 ###############################################################
 @app.route('/display-visitors')
 def display_visitors():
     """List of current visitors"""
     # used on JS getCurrentVistors
-    # html btn "display-visits"
+    # library html btn "display-visits"
 
     visits = db.session.query(Visit).filter(Visit.visit_timeout==None).all()
 
@@ -89,7 +100,7 @@ def display_visitors():
 def find_user():
     """Do a search of user and return a list of possible matches"""
     # used on JS showUserResults
-    # html form "user-search"
+    # library html form "user-search"
 
     email = get_return_wildcard('email')
     fname = get_return_wildcard('fname')
@@ -117,7 +128,7 @@ def find_user():
 def add_user():
     """Add a new user"""
     # used on JS registerUser
-    # html form "add-user"
+    # library html form "add-user"
 
     email = request.form.get('email')
     fname = (request.form.get('fname')).capitalize()
@@ -151,7 +162,7 @@ def add_user():
 def add_new_visit():
     """Add a Visit to the database"""
     # sub-AJAX on addUserResults
-    # rendered with results
+    # library - rendered with results
 
     user = request.form.get('user-id')
     admin = session['user']
@@ -174,7 +185,8 @@ def add_new_visit():
 @app.route('/log-in.json', methods=['POST'])
 def log_in_user():
     """Login an existing user"""
-    """Right now, just admin to test adding visits"""
+    # used on JS loginUser
+    # home html form "log-in"
 
     email = request.form.get('email')
     password = request.form.get('password')
@@ -190,13 +202,13 @@ def log_in_user():
         session['type'] = user.type_id
         print session
         return jsonify(user.serialize())
-    # if user.type_id == 2 render_template("user page")
-    # if user.type_id == 1 render_template("library page")
 
 
 @app.route('/checkout.json', methods=['POST'])
 def checkout_user():
     """Checkout user"""
+    # sub-AJAX on displayCurrentVisitors
+    # library - rendered with current visitors
 
     visit_id = request.form.get('visit-id')
 
@@ -221,6 +233,9 @@ def checkout_user():
 @app.route('/find-books.json', methods=['GET'])
 def find_book():
     """Do a search on books and return a list of matches"""
+    # used on JS displayBookResults
+    # book_search html form "book-search"
+
 
     title = get_return_wildcard('title')
     author = get_return_wildcard('author')
@@ -238,6 +253,8 @@ def find_book():
 @app.route('/add-book.json', methods=['POST'])
 def add_book():
     """Add a book to a visit"""
+    # sub-AJAX on displayBookResults
+    # book_search - rendered with book results
 
     book_id = request.form.get('book-id')
     visit_id = request.form.get('visit-id')
@@ -260,6 +277,8 @@ def add_book():
 @app.route('/book-search', methods=['GET'])
 def find_visit_books():
     """render the book search page"""
+    # sub-AJAX on displayCurrentVisitors
+    # library - rendered with current visitors
 
     user = request.args.get('visit-id')
 
@@ -272,6 +291,8 @@ def find_visit_books():
 @app.route('/return-book', methods=['GET'])
 def checked_books():
     """outstanding books from user"""
+    # sub-AJAX on displayCurrentVisitors
+    # library - rendered with current visitors
 
     user = request.args.get('visit-id')
 
@@ -287,6 +308,8 @@ def checked_books():
 @app.route('/show-books.json', methods=['GET'])
 def show_outstanding():
     """show all the outstanding books"""
+    # autocalled on JS getOutstandingBooks
+    # book_search & return_books html
 
     visit = request.args.get('visit-id')
 
@@ -304,6 +327,8 @@ def show_outstanding():
 @app.route('/book-return.json', methods=['POST'])
 def return_books():
     """return books from user"""
+    # sub-AJAX on getOutstandingBooks
+    # book_search & return_books html
 
     book = request.form.get('book-id')
 
@@ -317,18 +342,6 @@ def return_books():
         return_book.is_returned = True
         db.session.commit()
         return "Book has been returned."
-
-
-@app.route('/log-out', methods=['GET'])
-def log_out():
-    """Log out user"""
-
-    if session.get('user'):
-        del session['user']
-        del session['type']
-        print session
-        return redirect('/')
-
 
 #################################################################
 #Helper functions

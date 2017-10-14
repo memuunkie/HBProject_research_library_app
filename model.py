@@ -64,11 +64,11 @@ class Book(db.Model):
 
     book_id = db.Column(db.Integer,autoincrement=True,
                         primary_key=True)
-    call_num = db.Column(db.String(100), nullable=False)
-    author = db.Column(db.String(300), nullable=False)
-    title = db.Column(db.String(1000), nullable=True)
-    edition = db.Column(db.String(100), nullable=True)
-    pub_info = db.Column(db.String(400), nullable=True)
+    call_num = db.Column(db.String(300), nullable=False)
+    author = db.Column(db.String(500), nullable=False)
+    title = db.Column(db.String(1500), nullable=True)
+    edition = db.Column(db.String(500), nullable=True)
+    pub_info = db.Column(db.String(500), nullable=True)
 
     def serialize(self):
         """For Book JSON info"""

@@ -64,7 +64,7 @@ def load_users():
         db.session.add(user)
 
     # create one default admin
-    admin = User(fname='The', lname='Librarian', email='admin@library.com',
+    admin = User(fname='The', lname='Librarian', email='bookkeeperchs@gmail.com',
                  password='1234abc', create_date=datetime.now(), type_id=1)
     
     db.session.add(admin)

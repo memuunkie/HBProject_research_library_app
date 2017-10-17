@@ -19,9 +19,6 @@ app = Flask(__name__)
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ABCItseasyas123orsimpleasDo-Re-MiABC123babyyouandmegirl"
 
-# Normally, if you use an undefined variable in Jinja2, it fails
-# silently. This is horrible. Fix this so that, instead, it raises an
-# error.
 app.jinja_env.undefined = StrictUndefined
 
 
@@ -57,11 +54,22 @@ def user_view():
 
     if session.get('user'):
         if session['type'] == 2:
-            return render_template('user_detail.html')
+            user_id = session['user']
+            user = User.query.filter_by(user_id=user_id).first()
+            visits = Visit.query.filter(Visit.user_id == user_id).order_by(Visit.visit_timeout.desc()).all()
+            return render_template('user_detail.html', user=user,
+                                    visits=visits)
         else:
             return redirect('/library')
     else:
         return redirect('/')
+
+
+@app.route('/library_events')
+def render_events():
+    """render the calendar page"""
+
+    return render_template('library_events.html') 
 
 
 @app.route('/log-out', methods=['GET'])
@@ -73,6 +81,21 @@ def log_out():
         del session['type']
         print session
         return redirect('/')
+
+
+@app.route('/create-event', methods=['GET'])
+def add_event_to_calendar():
+    """Add new event to calendar"""
+
+    # doesn't do anything yet
+
+    date = request.args.get('date')
+    time = request.args.get('time')
+
+    print type(date), type(time)
+    print date, ' and ', time
+
+    return redirect('/library_events')
 
 
 #Everything below are for AJAX calls 
@@ -177,9 +200,9 @@ def add_new_visit():
         db.session.add(visit)
         db.session.commit()
 
-        return "Success to post"
+        return "User has been checked in"
     else:
-        return "None"
+        return "USER ALREADY CHECKED IN"
 
 
 @app.route('/log-in.json', methods=['POST'])
@@ -346,6 +369,9 @@ def return_books():
 #################################################################
 #Helper functions
 
+def formatDatetime(value, format='%m/%d/%Y at %H:%M'):
+    return value.strftime(format)
+
 def make_wildcard(name):
     """Formats request.args result to be wildcard-able"""
 
@@ -377,6 +403,9 @@ if __name__ == "__main__":
     # point that we invoke the DebugToolbarExtension
     app.debug = True
     app.jinja_env.auto_reload = app.debug  # make sure templates, etc. are not cached in debug mode
+    # add formatDatetime to Jinja template
+    app.jinja_env.filters['formatDatetime'] = formatDatetime
+
 
     connect_to_db(app)
 

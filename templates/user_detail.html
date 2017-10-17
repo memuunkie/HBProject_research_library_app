@@ -11,16 +11,35 @@
 
     <hr>
 
- <h1>User</h1>
+ <h1>{{ user.fname }} {{ user.lname }} </h1>
 
-    <p>To be determined</p>
-    <p>Show user details</p>
-    <br>Show past visit history (by newest to oldest)
-    <br>Be able to view books looked at
-    <br>Pre-checkin? --> allow to precheck in on a certain date
-    <br>--> dropdown menu of upcoming dates?
-    <br>Change password
-    <br>Change email??
+    <p>User ID: {{ user.user_id }}
+        <br>Patron since {{ user.create_date|formatDatetime(format='%m-%d-%Y') }}</p>
+    <!--
+    <br>Pre-checkin? allow to precheck in on a certain date
+    <br>dropdown menu of upcoming dates? -->
+
+    {% if visits %}
+        <h3>Past Visits</h3>
+        <ul>
+        {% for visit in visits %}
+            <li>Visited {{ visit.visit_timein|formatDatetime }} </li>
+                {% if visit.visit_item %}
+                    <b>Books Used</b>
+                    <ul>
+                        {% for item in visit.visit_item %}
+                        <li><b>{{ item.book.title}}</b>
+                            <br>{{ item.book.author}}
+                            <br>{{ item.book.call_num}}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <b>No books checked out</b>
+                {% endif%}
+        {% endfor %}
+        </ul>
+    {% endif%}
 
 
 <script src="http://code.jquery.com/jquery.js"></script>

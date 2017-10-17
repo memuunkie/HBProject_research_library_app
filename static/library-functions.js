@@ -33,29 +33,11 @@ function displayUserResults(results) {
                                 value: results[i]['user_id'],
                                 on: {
                                     click: function() {
-                                        //check to see if right value sent
                                         console.log(this.value);
-                                        var url = "/new-visit.json";
-                                        var buttonVal = {
-                                            'user-id': this.value
+                                        $.post("/new-visit.json", {'user-id':this.value}, checkInConfirm);
                                             }
-                                        //show what is getting sent to server
-                                        console.log(buttonVal);
-                                        $.post(url, buttonVal, function(res){
-                                            //show what got back from server
-                                            console.log(res);
-        
-                                            if (res == 'None') {
-                                                userList.empty();
-                                                userList.html("<p>USER ALREADY CHECKED IN</p>");
-                                                } else {
-                                                userList.empty();
-                                                userList.html("<p>User has been added</p>");
-                                                }                                    
-                                            });
-                                                        }
                                     }
-                    });
+                                });
         
                     btn.html('Check In');
         
@@ -82,6 +64,19 @@ function showUserResults(evt) {
 
     $.get(url, displayUserResults);
 }
+
+/**************
+    Button functions
+**************/
+
+function checkInConfirm(results) {
+    // Confirmation message from server after clicking Check In button
+    var userList = $("#result-user-list");
+    console.log(results);
+    userList.empty();
+    userList.html("<p>" + results + "</p>");
+}
+
 
 $("#user-search").on('submit', showUserResults);
 //library_view.html

@@ -71,20 +71,9 @@ def user_view():
 def render_events():
     """render the calendar page"""
 
-    events = show_events_python()
+    events = get_event_data()
 
-    all_events = []
-
-    for event in events:
-        start = event['start'].get('dateTime', event['start'].get('date'))
-        end = event['end'].get('dateTime', event['end'].get('date'))
-        title = event['summary']
-        event_id = event['id']
-
-        all_events.append({'event_id': event_id, 'title': title,
-                            'start': start, 'end': end})
-
-    return render_template('library_events.html', events=all_events) 
+    return render_template('library_events.html', events=events) 
 
 
 @app.route('/log-out', methods=['GET'])
@@ -403,6 +392,27 @@ def post_return_wildcard(name):
         return make_wildcard(request.form.get(name))
     else:
         return ''
+
+
+def get_event_data():
+    """Returns a dictionary of the event data"""
+
+    events = show_events_python()
+
+    all_events = []
+
+    if events:
+        for event in events:
+            start = event['start'].get('dateTime', event['start'].get('date'))
+            end = event['end'].get('dateTime', event['end'].get('date'))
+            title = event['summary']
+            event_id = event['id']
+            link = event['htmlLink']
+
+            all_events.append({'event_id': event_id, 'title': title,
+                                'start': start, 'end': end, 'htmlLink': link})
+
+    return all_events
 
 
 if __name__ == "__main__":

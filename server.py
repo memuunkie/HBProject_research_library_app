@@ -11,6 +11,8 @@ from sqlalchemy import and_, or_
 from model import Book, User, Visit, VisitItem
 from model import connect_to_db, db
 
+from integrate import show_events_python, get_credentials
+
 from datetime import datetime
 
 
@@ -69,7 +71,20 @@ def user_view():
 def render_events():
     """render the calendar page"""
 
-    return render_template('library_events.html') 
+    events = show_events_python()
+
+    all_events = []
+
+    for event in events:
+        start = event['start'].get('dateTime', event['start'].get('date'))
+        end = event['end'].get('dateTime', event['end'].get('date'))
+        title = event['summary']
+        event_id = event['id']
+
+        all_events.append({'event_id': event_id, 'title': title,
+                            'start': start, 'end': end})
+
+    return render_template('library_events.html', events=all_events) 
 
 
 @app.route('/log-out', methods=['GET'])
@@ -86,14 +101,6 @@ def log_out():
 @app.route('/create-event', methods=['GET'])
 def add_event_to_calendar():
     """Add new event to calendar"""
-
-    # doesn't do anything yet
-
-    date = request.args.get('date')
-    time = request.args.get('time')
-
-    print type(date), type(time)
-    print date, ' and ', time
 
     return redirect('/library_events')
 

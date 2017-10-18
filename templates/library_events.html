@@ -13,16 +13,36 @@
 
     <h1>Event Calendar</h1>
 
-    <div id="new-event">
+<!--     <div id="new-event">
         <h3>Create New Appointment</h3>
         <form id="new_appt" action="/create-event" method="GET">
-                <!-- Sends form data as POST -->
-                <!-- Uses showUserResults and displayuserResults in JS -->
             <div class="form-group">
-                <!-- Queries 'users' table in DB -->
                 <br>Date:<input id="add-date"class="form-control" type="date" name="date" required>
                 <br>Time(HH:MM AM/PM):<input id="add-time"class="form-control" type="time" name="time" required>
                 <input type="submit" value="Submit">
+    </div> -->
+
+    <hr>
+    <div>
+        <h3>Test display events</h3>
+
+        {% if events %}
+            Available Events:
+            <div>
+                <ul>
+                {% for event in events %}
+                    <li value="{{ event['event_id'] }}">{{ event['title']}}
+                    <br>Start: {{ event['start']}}
+                    <br>End: {{ event['end']}}
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+
+            <h4>No events available</h4>
+
+        {% endif %}
     </div>
 
     <hr>

@@ -33,6 +33,9 @@ USER = int(os.environ['LIBRAY_USER_CODE'])
 def index():
     """Home"""
 
+    # print session
+    # print type(session['type']), type(session['user'])
+
     if session.get('user'):
         if session['type'] == ADMIN:
             return redirect('/library')
@@ -230,7 +233,7 @@ def log_in_user():
         return 'None'
     else:
         session['user'] = user.user_id
-        session['type'] = str(user.type_id)
+        session['type'] = user.type_id
 
         print session
         return jsonify(user.serialize())
@@ -278,7 +281,6 @@ def find_book():
                                  Book.call_num.ilike(call_num))).all()
 
     books = [b.serialize() for b in books]
-
     return jsonify(books)
 
 
@@ -375,6 +377,18 @@ def return_books():
         db.session.commit()
         return "Book has been returned."
 
+
+@app.route('/appointment.json', methods=['POST'])
+def make_appt():
+    """send an appointment request from user"""
+
+    appt = request.form.get('appt')
+
+    print "got it"
+    return "Got it"
+
+
+
 #################################################################
 #Helper functions
 
@@ -443,7 +457,7 @@ def get_event_data():
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
-    app.debug = True
+    app.debug = False
     app.jinja_env.auto_reload = app.debug  # make sure templates, etc. are not cached in debug mode
     # add formatDatetime to Jinja template
     app.jinja_env.filters['formatDatetime'] = formatDatetime

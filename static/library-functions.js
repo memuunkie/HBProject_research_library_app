@@ -94,38 +94,43 @@ function displayBookResults(results) {
 
     console.log(results);
 
-    for(var i = 0; i < results.length; i++) {
+    if (results.length == 0) {
+        document.getElementById("book-search").reset();
+        bookList.append("<p>No books found.</p>");
+    } else {
+        for(var i = 0; i < results.length; i++) {
 
-        var btn = $("<button>", {
-                        name: 'book-id',
-                        value: results[i]['book_id'],
-                        on: {
-                            click: function() {
-                                console.log(this.value);
-                                var url = "/add-book.json";
-                                var buttonVal = {
-                                    'book-id': this.value,
-                                    'visit-id': parseInt($('#visit-id').html()),
+            var btn = $("<button>", {
+                            name: 'book-id',
+                            value: results[i]['book_id'],
+                            on: {
+                                click: function() {
+                                    console.log(this.value);
+                                    var url = "/add-book.json";
+                                    var buttonVal = {
+                                        'book-id': this.value,
+                                        'visit-id': parseInt($('#visit-id').html()),
+                                        }
+                                    $.post(url, buttonVal, function(res) {
+                                            document.getElementById("book-search").reset();
+                                            $('#result-book-list').empty();
+                                            $('#result-book-list').html("<p>" + res + "</p>");
+                                            console.log(res)
+                                        });
+
                                     }
-                                $.post(url, buttonVal, function(res) {
-                                        document.getElementById("book-search").reset();
-                                        $('#result-book-list').empty();
-                                        $('#result-book-list').html("<p>" + res + "</p>");
-                                        console.log(res)
-                                    });
-
                                 }
-                            }
-                }
+                    }
 
-            );
+                );
 
-        btn.html("Add Book");
+            btn.html("Add Book");
 
-        bookList.append("<li><b>" + results[i]['title'] + 
-                        "</b><br>" + results[i]['author'] +
-                        "<br>" + results[i]['call_num'] +
-                        "<br>").append(btn);
+            bookList.append("<li><b>" + results[i]['title'] + 
+                            "</b><br>" + results[i]['author'] +
+                            "<br>" + results[i]['call_num'] +
+                            "<br>").append(btn);
+        }
     }
 }
 
@@ -332,6 +337,34 @@ function registerUser(evt) {
 $("#add-user").on("submit", registerUser)
 //library_view.html
 
+
+/*************
+    Choose an event
+**************/
+
+function confirmSent(results) {
+
+
+    $("#appt-selection-list").remove();
+    var apptMsg = $("#appt-block");
+
+    console.log(results);
+
+    apptMsg.append("<p> Your appointment request has been sent. </p>");
+}
+
+function chooseEvent(evt) {
+    // send to server
+    evt.preventDefault();
+
+    var formInput = $('input[name=appt]:checked').val();
+
+    $.post("/appointment.json", formInput, confirmSent);
+}
+
+$("#appt-selection-list").on("submit", chooseEvent)
+
+// $(".event-choice").on('click', chooseEvent)
 /*************
     Display all outstanding books for a visit and allow for return
 *************/

@@ -9,22 +9,29 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
+<!--       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span> -->
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Brand</a>
+      <a class="navbar-brand" href=""><img src="https://scontent-sjc2-1.xx.fbcdn.net/v/t1.0-9/11707651_10152851161581574_149713762319276002_n.png?oh=0f4ab7addd7389ef3bb6cdd7810cc7ef&oe=5A667BC4" alt="CA Historical Society poppy" height="42" width="42"></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-        <li><a href="/library_events">Library Events</a></li>
-        <li><a href="/library">Library Home</a></li>
-        <li><a href="/user">User Home</a></li>
+<!--         <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li> -->
+        {% if session %}
+            {% if session['type'] == 1 %}
+            <li><a href="/library">Library Admin Home</a></li>
+            {% else %}
+            <li><a href="/user">Home</a></li>
+            {% endif %}
+
+            <li><a href="/library_events">Appointments</a></li>
+
+        {% endif %}
 <!--         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -40,7 +47,7 @@
       </ul>
 
         {% if not session %}
-      <form class="navbar-form navbar-left">
+<!--       <form class="navbar-form navbar-left">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
         </div>
@@ -58,7 +65,7 @@
             <li><a href="#">Separated link</a></li>
           </ul>
         </li>
-      </ul>
+      </ul> -->
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

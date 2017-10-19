@@ -15,7 +15,7 @@
 
     {% if user == 'ADMIN' %}
 
-    <h3>See this?</h3>
+    <h3>See this? [test admin view]</h3>
 
         <p>Appt requests from Patrons</p>
 
@@ -25,7 +25,7 @@
     
     {% else %}
 
-    <h2>You see this</h2>
+    <h2>You see this [test user view]</h2>
 
     {% endif %}
 
@@ -35,30 +35,34 @@
             <div class="form-group">
                 <br>Date:<input id="add-date"class="form-control" type="date" name="date" required>
                 <br>Time(HH:MM AM/PM):<input id="add-time"class="form-control" type="time" name="time" required>
-                <input type="submit" value="Submit">
+        appt        <input type="submit" value="Submit">
     </div> -->
 
     <hr>
     <div>
-        <h3>Test display events</h3>
 
         {% if events %}
-            Available Events:
-            <div>
-                <form id="event-selection-list">
+            
+            <div id="appt-block">
+                <form id="appt-selection-list" action="/appointment" method="POST">
+                    <h3 id="remove-me">Available Appointment Times:</h3>
+                    <div class="form-group">
                 {% for event in events %}
 
                     <input type="radio" name='appt' value="{{ event['htmlLink'] }}">
                     {{ event['title']}}
                     <br>Start: {{ event['start']}}
                     <br>End: {{ event['end']}}<br>
+
                 {% endfor %}
-                <input type="submit" value="Submit">
+                    </div>
+                <button class="btn btn-primary" type="submit">Request Appointment</button>                 
                 </form>
             </div>
+
         {% else %}
 
-            <h4>No events available</h4>
+            <h4>No appointments available</h4>
 
         {% endif %}
     </div>

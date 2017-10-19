@@ -18,7 +18,7 @@ except ImportError:
 # If modifying these scopes, delete your previously saved credentials
 # at ~/.credentials/calendar-python-quickstart.json
 SCOPES = 'https://www.googleapis.com/auth/calendar'
-CLIENT_SECRET_FILE = '~/Documents/tests/client_secret2.json'
+CLIENT_SECRET_FILE = os.environ['GOOGLE_CAL_APP_CREDENTIALS']
 APPLICATION_NAME = 'CHS Admin Calendar Login'
 
 

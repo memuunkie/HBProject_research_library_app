@@ -13,6 +13,22 @@
 
     <h1>Event Calendar</h1>
 
+    {% if user == 'ADMIN' %}
+
+    <h3>See this?</h3>
+
+        <p>Appt requests from Patrons</p>
+
+        <div>
+            <ul id="appt-requests"> </ul>
+        </div>
+    
+    {% else %}
+
+    <h2>You see this</h2>
+
+    {% endif %}
+
 <!--     <div id="new-event">
         <h3>Create New Appointment</h3>
         <form id="new_appt" action="/create-event" method="GET">
@@ -29,15 +45,16 @@
         {% if events %}
             Available Events:
             <div>
-                <ul>
+                <form id="event-selection-list">
                 {% for event in events %}
-                    <li value="{{ event['event_id'] }}">{{ event['title']}}
+
+                    <input type="radio" name='appt' value="{{ event['htmlLink'] }}">
+                    {{ event['title']}}
                     <br>Start: {{ event['start']}}
-                    <br>End: {{ event['end']}}
-                    <br>Link: {{ event['htmlLink']}}
-                    </li>
+                    <br>End: {{ event['end']}}<br>
                 {% endfor %}
-                </ul>
+                <input type="submit" value="Submit">
+                </form>
             </div>
         {% else %}
 

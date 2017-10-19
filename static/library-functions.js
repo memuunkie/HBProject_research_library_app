@@ -258,8 +258,6 @@ function loginResults(results) {
 
     if (results == 'None') {
         $("#msg").empty().append("<p>No such user. Please register.</p>");
-    } else if (results['type_id'] === 1) {
-        location.replace('/library');
     } else {
         location.replace('/user');
     }

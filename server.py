@@ -15,6 +15,8 @@ from integrate import show_events_python, get_credentials
 
 from datetime import datetime
 
+import os
+
 
 app = Flask(__name__)
 
@@ -23,13 +25,16 @@ app.secret_key = "ABCItseasyas123orsimpleasDo-Re-MiABC123babyyouandmegirl"
 
 app.jinja_env.undefined = StrictUndefined
 
+ADMIN = int(os.environ['LIBRAY_ADMIN_CODE'])
+USER = int(os.environ['LIBRAY_USER_CODE'])
+
 
 @app.route('/')
 def index():
     """Home"""
 
     if session.get('user'):
-        if session['type'] == 1:
+        if session['type'] == ADMIN:
             return redirect('/library')
         else:
             return redirect('/user')
@@ -42,7 +47,7 @@ def library_view():
     """render the librarian view"""
 
     if session.get('user'):
-        if session['type'] == 1:
+        if session['type'] == ADMIN:
             return render_template('library_view.html')
         else:
             return redirect('/user')            
@@ -55,7 +60,7 @@ def user_view():
     """render the user view"""
 
     if session.get('user'):
-        if session['type'] == 2:
+        if session['type'] == USER:
             user_id = session['user']
             user = User.query.filter_by(user_id=user_id).first()
             visits = Visit.query.filter(Visit.user_id == user_id).order_by(Visit.visit_timeout.desc()).all()
@@ -73,7 +78,14 @@ def render_events():
 
     events = get_event_data()
 
-    return render_template('library_events.html', events=events) 
+    user_type = session['type']
+
+    if user_type == ADMIN:
+        user = 'ADMIN'
+    else:
+        user = 'USER'
+
+    return render_template('library_events.html', events=events, user=user) 
 
 
 @app.route('/log-out', methods=['GET'])
@@ -210,7 +222,7 @@ def log_in_user():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    user = db.session.query(User).filter(User.email == email,
+    user = db.session.query(User).filter(User.email == email, 
                                          User.password == password).first()
 
     if user is None:
@@ -218,7 +230,8 @@ def log_in_user():
         return 'None'
     else:
         session['user'] = user.user_id
-        session['type'] = user.type_id
+        session['type'] = str(user.type_id)
+
         print session
         return jsonify(user.serialize())
 
@@ -366,7 +379,16 @@ def return_books():
 #Helper functions
 
 def formatDatetime(value, format='%m/%d/%Y at %H:%M'):
+    """Formats datetime on Jinja"""
     return value.strftime(format)
+
+
+def formatUnicodeDatetime(date_string):
+    """Format unicode to datetime"""
+    date = date_string
+
+    year, month, day, time, utc = date[:4], date[5:7], date[8:10], date[11:16], date[-6]
+
 
 def make_wildcard(name):
     """Formats request.args result to be wildcard-able"""
@@ -403,14 +425,17 @@ def get_event_data():
 
     if events:
         for event in events:
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            end = event['end'].get('dateTime', event['end'].get('date'))
-            title = event['summary']
-            event_id = event['id']
-            link = event['htmlLink']
-
-            all_events.append({'event_id': event_id, 'title': title,
+            if 'transparency' in event:
+                start = event['start'].get('dateTime', event['start'].get('date'))
+                end = event['end'].get('dateTime', event['end'].get('date'))
+                title = event['summary']
+                event_id = event['id']
+                link = event['htmlLink']
+                all_events.append({'event_id': event_id, 'title': title,
                                 'start': start, 'end': end, 'htmlLink': link})
+            else:
+                title = event['summary']
+                print title, "Is taken"
 
     return all_events
 

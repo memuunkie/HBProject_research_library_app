@@ -259,7 +259,23 @@ $("#display-visits").on('click', getCurrentVisitors);
 *************/
 
 function displayApptRequests(results) {
-    console.log(results)
+    console.log(results);
+
+    $('#appt-requests').empty();
+
+    if (typeof(results) == 'string') {
+        $("#msg-bad").empty().append('<p>' + results + '</p>');
+    } else {
+
+        for (var i = 0; i < results.length; i++) {
+            $('#appt-requests').append('<li>' + results[i]['fname'] + ' ' 
+                + results[i]['lname']
+                + '<br>Waiting for approval'
+                + '<br><a href="' + results[i]['appt_link']
+                + '">View on Google Calendar</a></li>');
+        }
+        
+    }
 }
 
 function getApptRequests(evt) {

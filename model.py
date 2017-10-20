@@ -188,6 +188,9 @@ class Appt(db.Model):
                 'appt_link': self. appt_link
         }
 
+        return info
+
+
     def __repr__(self):
         """Provide helpful representation when printed."""
         return "<Appt appt_id=%s is_confirmed=%s>" % (self.appt_id, self.is_confirmed)

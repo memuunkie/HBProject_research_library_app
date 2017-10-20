@@ -126,12 +126,13 @@ def display_visitors():
         x.update(visit.serialize())
         all_visits.append(x)
 
-    print jsonify(all_visits)
     return jsonify(all_visits)
 
 
 @app.route('/display-appts')
 def get_appt_requests():
+
+    confirm_appts()
 
     appts = Appt.query.filter(Appt.is_confirmed == False).all()
 
@@ -143,6 +144,7 @@ def get_appt_requests():
             x.update(appt.serialize())
             all_appts.append(x)
         print jsonify(all_appts)
+        return jsonify(all_appts)
     else:
         return "No appointment requests"
 
@@ -482,6 +484,19 @@ def get_event_data():
     return all_events
 
 
+def confirm_appts():
+    """Mark appt records as confirmed in DB"""
+
+    events = show_events_python()
+
+    if events:
+        for event in events:
+            appt = db.session.query(Appt).filter(Appt.appt_link == event['htmlLink']).first() 
+            if 'transparency' not in event and appt:
+                appt.is_confirmed = True
+                db.session.commit()
+
+
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
@@ -495,7 +510,6 @@ if __name__ == "__main__":
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)
-
 
 
     app.run(port=5000, host='0.0.0.0')

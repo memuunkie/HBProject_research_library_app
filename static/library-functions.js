@@ -263,8 +263,7 @@ function displayApptRequests(results) {
 }
 
 function getApptRequests(evt) {
-    //send query to server for all current checkin in visitors
-    evt.preventDefault();
+     evt.preventDefault();
 
     $.get("/display-appts", displayApptRequests);
 }
@@ -374,6 +373,8 @@ function chooseEvent(evt) {
     evt.preventDefault();
 
     var formInput = $('input[name=appt]:checked').val();
+
+    formInput = $('input[name=appt]:checked').serialize();
 
     $.post("/appointment.json", formInput, confirmSent);
 }

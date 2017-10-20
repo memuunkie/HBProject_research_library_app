@@ -255,6 +255,23 @@ $("#display-visits").on('click', getCurrentVisitors);
 //library_view.html
 
 /*************
+    For display patron request for appointments
+*************/
+
+function displayApptRequests(results) {
+    console.log(results)
+}
+
+function getApptRequests(evt) {
+    //send query to server for all current checkin in visitors
+    evt.preventDefault();
+
+    $.get("/display-appts", displayApptRequests);
+}
+
+$("#display-appts").on("click", getApptRequests);
+
+/*************
     For logging in
 *************/
 
@@ -344,13 +361,12 @@ $("#add-user").on("submit", registerUser)
 
 function confirmSent(results) {
 
-
     $("#appt-selection-list").remove();
     var apptMsg = $("#appt-block");
 
     console.log(results);
 
-    apptMsg.append("<p> Your appointment request has been sent. </p>");
+    apptMsg.append("<p>" + results + "</p>");
 }
 
 function chooseEvent(evt) {

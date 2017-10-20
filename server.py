@@ -8,7 +8,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from sqlalchemy import and_, or_
 
-from model import Book, User, Visit, VisitItem
+from model import Book, User, Visit, VisitItem, Appt
 from model import connect_to_db, db
 
 from integrate import show_events_python, get_credentials
@@ -130,6 +130,23 @@ def display_visitors():
     return jsonify(all_visits)
 
 
+@app.route('/display-appts')
+def get_appt_requests():
+
+    appts = Appt.query.filter(Appt.is_confirmed == False).all()
+
+    all_appts = []
+
+    if len(appts) > 0:
+        for appt in appts:
+            x = appt.user.serialize()
+            x.update(appt.serialize())
+            all_appts.append(x)
+        print jsonify(all_appts)
+    else:
+        return "No appointment requests"
+
+
 @app.route('/find-users.json', methods=['GET'])
 def find_user():
     """Do a search of user and return a list of possible matches"""
@@ -181,7 +198,7 @@ def add_user():
                             create_date=datetime.now())
         else:
             new_user = User(email=email, fname=fname, lname=lname,
-                            password='y0urt3mpCHSpswd', 
+                            password='1234abc', 
                             create_date=datetime.now())
         db.session.add(new_user)
         db.session.commit()
@@ -382,10 +399,19 @@ def return_books():
 def make_appt():
     """send an appointment request from user"""
 
-    appt = request.form.get('appt')
+    appt_link = request.form.get('appt')
+    user = session['user']
 
-    print "got it"
-    return "Got it"
+    any_appts = Appt.query.filter(Appt.user_id == user, 
+                                  Appt.is_confirmed == False).all()
+
+    if len(any_appts) > 0:
+        return "You have already have a pending appointment request."
+    else:
+        new_appt = Appt(user_id=user, appt_link=appt_link)
+        db.session.add(new_appt)
+        db.session.commit()
+        return "Your appointment request has been sent."
 
 
 

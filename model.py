@@ -166,6 +166,33 @@ class VisitItem(db.Model):
         return "<Item visit_id=%s book_id=%s>" % (self.visit_id, self.book_id)
 
 
+class Appt(db.Model):
+    """Track appointment requests"""
+
+    __tablename__ = 'appt_requests'
+
+    appt_id = db.Column(db.Integer, autoincrement=True, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    appt_link = db.Column(db.String(300), nullable=False)
+    is_confirmed = db.Column(db.Boolean, nullable=False, default=False)
+
+    user = db.relationship('User', backref=db.backref('user_appt'))
+
+    def serialize(self):
+        """For Appt JSON info"""
+
+        info = {
+                'appt_id': self.appt_id,
+                'user_id': self.user_id,
+                'is_confirmed': self.is_confirmed,
+                'appt_link': self. appt_link
+        }
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+        return "<Appt appt_id=%s is_confirmed=%s>" % (self.appt_id, self.is_confirmed)
+
+
 ##############################################################################
 # Helper functions
 

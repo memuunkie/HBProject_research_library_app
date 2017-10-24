@@ -38,7 +38,7 @@ h1, h2, h3, h4 {
 
 .child-list {
     border-color: #0C7D7F;
-    width: 93%;
+    width: 95%;
     margin: 5px;
 }
 
@@ -130,4 +130,8 @@ h1, h2, h3, h4 {
 #myCarousel img{
     display: block;
     margin: auto;
+}
+
+#display-appts {
+    margin-bottom: 25px;
 }

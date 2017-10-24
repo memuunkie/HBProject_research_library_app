@@ -407,8 +407,6 @@ def make_appt():
     any_appts = Appt.query.filter(Appt.user_id == user, 
                                   Appt.is_confirmed == False).all()
 
-    print any_appts
-
     if len(any_appts) > 0:
         return "You already have a pending appointment request."
     else:

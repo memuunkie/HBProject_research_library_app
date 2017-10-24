@@ -391,7 +391,6 @@ function confirmSent(results) {
 
     $("#appt-selection-list").remove();
     var apptMsg = $("#appt-block");
-    console.log(typeof(results));
     apptMsg.append(results);
 
 }
@@ -399,6 +398,7 @@ function confirmSent(results) {
 function chooseEvent(evt) {
     // send to server
     evt.preventDefault();
+    evt.stopImmediatePropagation();
 
     var formInput = $('input[name=appt]:checked').val();
     

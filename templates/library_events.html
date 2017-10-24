@@ -3,42 +3,50 @@
 
 {% block content %}
 
-    <hr>
-        <form action="/log-out" method="GET">
-            <input type="hidden" name="logout">
-            <input type="submit" value="Log Out">
-        </form>
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-xs-6 col-md-4"><button id="home" class="btn btn-primary">Back to Home</button></div>
+    </div>
+    <h1>Appointments</h1>
 
     <hr>
-
-    <h1>Event Calendar</h1>
 
     {% if user == 'ADMIN' %}
 
-    <h3>See this? [test admin view]</h3>
+    <div class="container-fluid">
 
-        <p>Appt requests from Patrons</p>
+    <div class="row">
+        <h4>Appointment requests from Patrons</h4>
 
-        <button id="display-appts" class="btn btn-primary">View Appointment Requests</button> 
+            <p>Review unconfirmed appointment requests and make those patient people happy.</p>
 
-        <div id="msg-bad"></div>
-
-        <div>
-            <ul id="appt-requests"> </ul>
+            <button id="display-appts" class="btn btn-primary">View Requests</button>
         </div>
-    
-    {% else %}
+    </div>
 
-    <h2>You see this [test user view]</h2>
+    <div id="msg-bad"></div>
+
+    <div>
+        <ul id="appt-requests"></ul>
+    </div>
 
     {% endif %}
 
 
 
-    <hr>
-    {% if user == 'USER' %}
-    <div>
 
+    {% if user == 'USER' %}
+    <div class="container-fluid">
+
+        <div class="row info-block">
+            <p><b>Need help with research or locating something in our archives?
+            </b></p>
+            <p>Request to work one-on-one with one of our researchers or archivists. Choose an available appointment time below.*</p>
+
+            <h5>*If you have an appointment request that is waiting for approval, you cannot request another appointment.</h5>
+        </div>
+    </div>
         {% if events %}
             
             <div id="appt-block">
@@ -48,13 +56,10 @@
                 {% for event in events %}
 
                     <input type="radio" name='appt' value="{{ event['htmlLink'] }}">
-                    {{ event['title']}}
-                    <br>Start: {{ event['start']}}
-                    <br>End: {{ event['end']}}<br>
-
+                    {{ event['title']}}<br>
                 {% endfor %}
                     </div>
-                <button class="btn btn-primary" type="submit">Request Appointment</button>                 
+                <br><button class="btn btn-primary" type="submit">Request Appointment</button>                 
                 </form>
             </div>
 
@@ -78,7 +83,7 @@
 
     {% endif %}
     <hr>
-
+</div>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/library-functions.js"></script>
 {% endblock %}

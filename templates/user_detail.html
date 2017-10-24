@@ -2,46 +2,43 @@
 
 
 {% block content %}
+<div class="container-fluid">
 
-    <hr>
-        <form action="/log-out" method="GET">
-            <input type="hidden" name="logout">
-            <input type="submit" value="Log Out">
-        </form>
+    <div class="row">
 
-    <hr>
+        <h1>{{ user.fname }} {{ user.lname }} </h1>
 
- <h1>{{ user.fname }} {{ user.lname }} </h1>
+            <p>User ID: {{ user.user_id }}
+            <br>Doing research since {{ user.create_date|formatDatetime(format='%m-%d-%Y') }}</p>
 
-    <p>User ID: {{ user.user_id }}
-        <br>Patron since {{ user.create_date|formatDatetime(format='%m-%d-%Y') }}</p>
-    <!--
-    <br>Pre-checkin? allow to precheck in on a certain date
-    <br>dropdown menu of upcoming dates? -->
+    </div>
 
     {% if visits %}
-        <h3>Past Visits</h3>
-        <ul>
+    <div id="user-visit-list" class="row">
+        <h3>Past Visits to the RLP</h3>
+        <ul class="list-group">
         {% for visit in visits %}
-            <li>Visited {{ visit.visit_timein|formatDatetime }} </li>
+            <li class="list-group-item parent-list"><b>Visited {{ visit.visit_timein|formatDatetime }} </b>
                 {% if visit.visit_item %}
-                    <b>Books Used</b>
+                    <br>Books Used:
+            </li>
                     <ul>
                         {% for item in visit.visit_item %}
-                        <li><b>{{ item.book.title}}</b>
+                        <li class="list-group-item child-list"><b>{{ item.book.title}}</b>
                             <br>{{ item.book.author}}
                             <br>{{ item.book.call_num}}
                         </li>
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <b>No books checked out</b>
+                    <b>You checked out nothin'</b> (which is a little weird)
                 {% endif%}
         {% endfor %}
-        </ul>
+        </ul> 
+    </div>
     {% endif%}
 
-
+</div> <!-- container-fluid -->
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/library-functions.js"></script>
 {% endblock %}

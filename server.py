@@ -404,8 +404,6 @@ def make_appt():
     appt_link = request.form.get('appt')
     user = session['user']
 
-    print appt_link
-
     any_appts = Appt.query.filter(Appt.user_id == user, 
                                   Appt.is_confirmed == False).all()
 

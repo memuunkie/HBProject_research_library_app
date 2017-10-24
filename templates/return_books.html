@@ -3,6 +3,9 @@
 
 {% block content %}
 
+    <hr>
+    <button id="home" class="btn btn-primary">Back to Home</button>
+
         {% if visit %}
         <div>
             <h2>Return Books for: {{ visit.user.fname }} {{ visit.user.lname}}

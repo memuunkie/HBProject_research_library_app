@@ -2,16 +2,11 @@
 
 
 {% block content %}
-
+<div class="container-fluid">
     <hr>
-        <form action="/log-out" method="GET">
-            <input type="hidden" name="logout">
-            <input type="submit" value="Log Out">
-        </form>
-
-    <hr>
-
-    <h1>Library Admin Dashboard</h1>
+    <div class="page-header">
+        <h1>Library Admin Dashboard</h1>
+    </div>
 
     <div> <!-- Display visitors currently checked in -->
         <h3>Today's Visitors</h3>
@@ -25,7 +20,9 @@
         </div>
     </div>
 
-    <div><!-- Create a Visit -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Create a Visit -->
         <h3>Visitor Check-In</h3>
         <form id="user-search" action="/find-users" method="GET">
             <!-- Sends form data as GET -->
@@ -39,11 +36,12 @@
             </div>
                 <button class="btn btn-primary" type="submit">Search Users</button>
         </form>
-    </div>
+        </div> <!-- row -->
+    </div> <!-- container-fluid -->
 
         <div id='visit-msg'></div>
             <ul id="result-user-list"></ul>
-        </div>
+
 
     <hr>
         <div id="new-user">
@@ -69,7 +67,7 @@
         <div id='register-msg'></div>
 
     <hr>
-
+</div>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/library-functions.js"></script>
 {% endblock %}

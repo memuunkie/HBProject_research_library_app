@@ -1,87 +1,100 @@
-/*Bookstrap classes?*/
+/*color scheme
 
-.btn {
+darkest #0C7C59
+lightest #DCEAB2
+nav #E0CA3C
+light blue #BEE6CE
+teal #75DBCD
 
+
+*/
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #DCEAB2;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Arvo', serif;
+}
+
+.row {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.list-group-item {
+    padding: 15px;
+    background-color: #BEE6CE;
+    border-radius: 5px;
+/*    border-color: #0F9168;
+    width: 100%;*/
+}
+
+.parent-list {
+    background-color: #75DBCD;
+    border-color: #0F9168;
+}
+
+#user-visit-list {
+    width: 50%;
+}
+
+.navbar {
+    background-color: #E0CA3C;
+    border-color: white;
+    color: white;
+}
+
+.navbar-nav {
+    font-family: 'Arvo', serif;
+    color: white;
+}
+
+.nav-link {
+    color: red;
 }
 
 .btn-primary {
-
+    background-color: #0C7C59;
 }
 
-.form-group {
- 
+.btn-primary:hover {
+    background-color: #0F9168;
 }
 
-.form-control {
-
+.res-btn {
+    margin: 3px;
 }
 
-/*my ids*/
-
-#user-search {
-
+.info-block {
+    background-color: #BEE6CE;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 25px;
+    width: 100%;
 }
 
-#check-in-patron {
-
-}
-
-#check-out-patron {
-    
-}
-
-#add-book {
-
-}
-
-#return-book {
-
-}
-
-#search-email {
-
-}
-
-#search-fname {
-
-}
-
-#search-lname {
-
-}
-
-#result-user-list {
-
-}
-
-#book-search {
-
-}
-
-#search-title {
-
-}
-
-#search-author {
-
-}
-
-#search-callnum {
-
-}
-
-#visit-form {
-    
-}
-
-#display-visits {
-
-}
-
-#log-in {
-
+#welcome {
+    color: white;
+    padding: 15px;
+    background-color: #0F9168;
+    border-radius: 5px;
+    width: 50%;
 }
 
 #user-login {
-    
+    padding: 15px;
+    background-color: #BEE6CE;
+    border-radius: 5px;
+    width: 50%;
+}
+
+#myCarousel img{
+    display: block;
+    margin: auto;
+}
+
+hr {
+    color: #0C7C59;
 }

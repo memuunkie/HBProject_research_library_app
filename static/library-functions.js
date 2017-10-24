@@ -29,6 +29,7 @@ function displayUserResults(results) {
             for(var i = 0; i < results.length; i++) {
         
                     var btn = $("<button>", {
+                                class: 'btn btn-primary res-btn',
                                 name: 'user-id',
                                 value: results[i]['user_id'],
                                 on: {
@@ -101,6 +102,7 @@ function displayBookResults(results) {
         for(var i = 0; i < results.length; i++) {
 
             var btn = $("<button>", {
+                            class: 'btn btn-primary res-btn',
                             name: 'book-id',
                             value: results[i]['book_id'],
                             on: {
@@ -173,6 +175,7 @@ function displayCurrentVisitors(results) {
 
         var btn1 = $("<button>", {
                     id: 'btn1-' + results[i]['visit_id'],
+                    class: 'btn btn-primary res-btn',
                     name: 'visit-id',
                     value: results[i]['visit_id'],
                     on: {
@@ -208,6 +211,7 @@ function displayCurrentVisitors(results) {
 
         var btn2 = $("<button>", {
                     id: 'btn2-' + results[i]['visit_id'],
+                    class: 'btn btn-primary res-btn',
                     name: 'add-book',
                     value: results[i]['visit_id'],
                     on: {
@@ -220,6 +224,7 @@ function displayCurrentVisitors(results) {
 
         var btn3 = $("<button>", {
                     id: 'btn3-' + results[i]['visit_id'],
+                    class: 'btn btn-primary res-btn',
                     name: 'return-book',
                     value: results[i]['visit_id'],
                     on: {
@@ -254,6 +259,13 @@ function getCurrentVisitors(evt) {
 $("#display-visits").on('click', getCurrentVisitors);
 //library_view.html
 
+function goHome(evt) {
+    evt.preventDefault();
+
+    window.location.replace("/");
+}
+
+$("#home").on('click', goHome);
 /*************
     For display patron request for appointments
 *************/
@@ -272,7 +284,7 @@ function displayApptRequests(results) {
                 + results[i]['lname']
                 + '<br>Waiting for approval'
                 + '<br><a href="' + results[i]['appt_link']
-                + '">View on Google Calendar</a></li>');
+                + '" class="external-url" target="_blank">View on Google Calendar</a></li>');
         }
         
     }
@@ -325,6 +337,7 @@ function addUserResults(results) {
         regMsg.html("<p>" + results + "</p>");
     } else {
         var btn = $("<button>", {
+                            class: 'btn btn-primary res-btn',
                             name: 'user-id',
                             value: results['user_id'],
                             on: {
@@ -413,6 +426,7 @@ function displayOutstandingBooks(results) {
 
         var btn = $("<button>", {
                     id: results[i]["book_id"],
+                    class: 'btn btn-primary res-btn',
                     name: "book-id",
                     value: results[i]["book_id"],
                     on: {

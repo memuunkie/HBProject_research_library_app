@@ -9,12 +9,13 @@
     </head>
 
 <body>
+{% if session %}
 <nav class="navbar navbar-default">
   <div class="container-fluid">
 
 
       <ul class="nav navbar-nav">
-        {% if session %}
+
             {% if session['type'] == 1 %}
             <li class="nav-link"><a href="/library">Admin Home</a></li>
             {% else %}
@@ -27,12 +28,10 @@
             <li class="nav-link"><a href="/log-out">Log Out</a></li>
         </ul>
 
-        {% endif %}
-
     </div><!-- /.container-fluid -->
   </div><!-- /.navbar navbar-default -->
 </nav>
-
+{% endif %}
     {% for flash in get_flashed_messages() %}
       <div>{{ flash }}</div>
     {% endfor %}

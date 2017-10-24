@@ -11,7 +11,7 @@ teal #75DBCD
 
 body {
     font-family: 'Open Sans', sans-serif;
-    background-color: #DCEAB2;
+    background-color: #DCE2AA;
 }
 
 h1, h2, h3, h4 {
@@ -21,71 +21,108 @@ h1, h2, h3, h4 {
 .row {
     padding-left: 20px;
     padding-right: 20px;
+    margin-bottom: 25px;
 }
 
 .list-group-item {
     padding: 15px;
-    background-color: #BEE6CE;
+    background-color: #ACFCD9;
     border-radius: 5px;
-/*    border-color: #0F9168;
-    width: 100%;*/
 }
 
 .parent-list {
-    background-color: #75DBCD;
-    border-color: #0F9168;
+    background-color: #55D6BE;
+    border-color: #0C7D7F;
+    margin: 3px;
+}
+
+.child-list {
+    border-color: #0C7D7F;
+    width: 93%;
+    margin: 5px;
+}
+
+.admin-list {
+    margin: 5px;
+    border-color: #0C7D7F;
+/*    width: 93%;*/
 }
 
 #user-visit-list {
-    width: 50%;
+    width: 85%;
+}
+
+.user-view {
+    width: 95%;
+}
+
+.admin-view {
+    width: 75%;
 }
 
 .navbar {
-    background-color: #E0CA3C;
-    border-color: white;
+    background-color: #FED766;
     color: white;
 }
 
-.navbar-nav {
+.navbar-default {
     font-family: 'Arvo', serif;
     color: white;
 }
 
 .nav-link {
-    color: red;
+    color: white;
 }
 
 .btn-primary {
-    background-color: #0C7C59;
+    background-color: #0F8B8D;
 }
 
 .btn-primary:hover {
-    background-color: #0F9168;
+    background-color: #109EA0;
+}
+
+.btn-primary:visited {
+    background-color: #0F8B8D;
 }
 
 .res-btn {
     margin: 3px;
+    margin-left: 10px;
 }
 
 .info-block {
-    background-color: #BEE6CE;
-    padding-top: 10px;
+    background-color: #ACFCD9;
+    margin-right: 5px;
+    padding-top: 15px;
     padding-bottom: 10px;
-    border-radius: 25px;
+    border-radius: 10px;
     width: 100%;
+}
+
+.alert {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-color: gray;
+}
+
+.alert-info {
+    padding-left: 25px;
 }
 
 #welcome {
     color: white;
     padding: 15px;
-    background-color: #0F9168;
+    background-color: #096466;
     border-radius: 5px;
     width: 50%;
+    margin-top: 25px;
+    margin-bottom: 5px;
 }
 
 #user-login {
     padding: 15px;
-    background-color: #BEE6CE;
+    background-color: #BBD8B3;
     border-radius: 5px;
     width: 50%;
 }
@@ -93,8 +130,4 @@ h1, h2, h3, h4 {
 #myCarousel img{
     display: block;
     margin: auto;
-}
-
-hr {
-    color: #0C7C59;
 }

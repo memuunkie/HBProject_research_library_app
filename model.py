@@ -49,6 +49,7 @@ class User(db.Model):
                 'user_id': self.user_id,
                 'fname': self.fname,
                 'lname': self.lname,
+                'email': self.email,
                 'create_date': str(self.create_date),
                 'type_id': self.user_type.type_id
         }

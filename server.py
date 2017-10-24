@@ -397,18 +397,20 @@ def return_books():
         return "Book has been returned."
 
 
-@app.route('/appointment.json', methods=['POST'])
+@app.route('/appointment.json', methods=['GET'])
 def make_appt():
     """send an appointment request from user"""
 
-    appt_link = request.form.get('appt')
+    appt_link = request.args.get('appt')
     user = session['user']
 
     any_appts = Appt.query.filter(Appt.user_id == user, 
                                   Appt.is_confirmed == False).all()
 
+    print any_appts
+
     if len(any_appts) > 0:
-        return "You have already have a pending appointment request."
+        return "You already have a pending appointment request."
     else:
         new_appt = Appt(user_id=user, appt_link=appt_link)
         db.session.add(new_appt)

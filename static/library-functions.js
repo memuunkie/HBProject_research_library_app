@@ -44,8 +44,8 @@ function displayUserResults(results) {
         
                     $('#visit-msg').empty();
                     document.getElementById("user-search").reset();
-                    userList.append("<li>" + results[i]['fname'] + 
-                                    " " + results[i]['lname'] + "<br>")
+                    userList.append("<li class='list-group-item admin-list'>" + results[i]['fname'] + 
+                                    " " + results[i]['lname'] + " (" + results[i]['email'] + ")<br>")
                                     .append(btn);
                 }
         }
@@ -91,7 +91,8 @@ function displayBookResults(results) {
 
     var bookList = $("#result-book-list");
 
-    bookList.empty();
+    bookList.removeClass('alert-info').empty();
+    bookList.removeClass('alert');
 
     console.log(results);
 
@@ -116,7 +117,7 @@ function displayBookResults(results) {
                                     $.post(url, buttonVal, function(res) {
                                             document.getElementById("book-search").reset();
                                             $('#result-book-list').empty();
-                                            $('#result-book-list').html("<p>" + res + "</p>");
+                                            $('#result-book-list').addClass('alert').addClass('alert-info').html("<strong>" + res + "</strong>");
                                             console.log(res)
                                         });
 
@@ -128,7 +129,7 @@ function displayBookResults(results) {
 
             btn.html("Add Book");
 
-            bookList.append("<li><b>" + results[i]['title'] + 
+            bookList.append("<li class='list-group-item admin-list'><b>" + results[i]['title'] + 
                             "</b><br>" + results[i]['author'] +
                             "<br>" + results[i]['call_num'] +
                             "<br>").append(btn);
@@ -166,7 +167,6 @@ function displayCurrentVisitors(results) {
     $("#msg-bad").empty();
     visitorList.empty();
     // check data
-    console.log(results);
 
     for (var i = 0; i < results.length; i++) {
         //check that results will render right
@@ -192,7 +192,7 @@ function displayCurrentVisitors(results) {
                                 //show what got back from server
                                 console.log(res);
                                 if (res == 'None') {
-                                    $("#msg-bad").html("User has outstanding books and cannot be checked out.");
+                                    $("#msg-bad").addClass('alert').addClass('alert-warning').html("User has outstanding books and cannot be checked out.");
 
                                 } else {
 
@@ -240,11 +240,12 @@ function displayCurrentVisitors(results) {
         btn2.html('Add Book');
         btn3.html('Return Books');
 
-        visitorList.append("<li id=\"li-" + results[i]['visit_id'] + "\">"
+        visitorList.append("<li id=\"li-" + results[i]['visit_id'] + 
+                        "\" class='list-group-item admin-list'>"
                         + results[i]['fname'] + " " + results[i]['lname'] 
                         + 
                         " in at " + formatDate(results[i]['visit_timein']))
-                        .append(btn1).append(btn2).append(btn3);
+                        .append(btn1).append(btn2).append(btn3).append("</li>");
     }
 }
 
@@ -276,14 +277,13 @@ function displayApptRequests(results) {
     $('#appt-requests').empty();
 
     if (typeof(results) == 'string') {
-        $("#msg-bad").empty().append('<p>' + results + '</p>');
+        $("#msg-bad").empty().append('<p class="list-group-item admin-list">' + results + '</p>');
     } else {
 
         for (var i = 0; i < results.length; i++) {
-            $('#appt-requests').append('<li>' + results[i]['fname'] + ' ' 
-                + results[i]['lname']
-                + '<br>Waiting for approval'
-                + '<br><a href="' + results[i]['appt_link']
+            $('#appt-requests').append('<li class="list-group-item admin-list">' 
+                + results[i]['fname'] + ' ' + results[i]['lname']
+                + '<br>Waiting for approval' + '<br><a href="' + results[i]['appt_link']
                 + '" class="external-url" target="_blank">View on Google Calendar</a></li>');
         }
         
@@ -391,10 +391,9 @@ function confirmSent(results) {
 
     $("#appt-selection-list").remove();
     var apptMsg = $("#appt-block");
+    console.log(typeof(results));
+    apptMsg.append(results);
 
-    console.log(results);
-
-    apptMsg.append("<p>" + results + "</p>");
 }
 
 function chooseEvent(evt) {
@@ -402,10 +401,10 @@ function chooseEvent(evt) {
     evt.preventDefault();
 
     var formInput = $('input[name=appt]:checked').val();
+    
+    var url = "/appointment.json?appt=" + formInput;
 
-    formInput = $('input[name=appt]:checked').serialize();
-
-    $.post("/appointment.json", formInput, confirmSent);
+    $.get(url, confirmSent);
 }
 
 $("#appt-selection-list").on("submit", chooseEvent)
@@ -446,8 +445,8 @@ function displayOutstandingBooks(results) {
 
         btn.html('Return Book');
 
-        bookList.append("<li id=\"li-" + results[i]['book_id'] + "\">"
-                        + results[i]['title'] + "<br>" 
+        bookList.append("<li id=\"li-" + results[i]['book_id'] + "\" class='list-group-item admin-list'><b>"
+                        + results[i]['title'] + "</b><br>" 
                         + results[i]['author'] + "<br>" 
                         + results[i]['call_num']).append(btn);
 

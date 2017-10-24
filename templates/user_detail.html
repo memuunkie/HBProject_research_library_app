@@ -2,7 +2,7 @@
 
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid user-view">
 
     <div class="row">
 
@@ -20,9 +20,10 @@
         {% for visit in visits %}
             <li class="list-group-item parent-list"><b>Visited {{ visit.visit_timein|formatDatetime }} </b>
                 {% if visit.visit_item %}
-                    <br>Books Used:
+<!--                     <br>Books Used: -->
             </li>
                     <ul>
+                        <li class="list-group-item child-list"><b>Books Used:</b></li>
                         {% for item in visit.visit_item %}
                         <li class="list-group-item child-list"><b>{{ item.book.title}}</b>
                             <br>{{ item.book.author}}
@@ -31,7 +32,7 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <b>You checked out nothin'</b> (which is a little weird)
+                    <p><b>You checked out nothin'</b> (which is a little weird)</p>
                 {% endif%}
         {% endfor %}
         </ul> 

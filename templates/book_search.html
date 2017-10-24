@@ -3,32 +3,48 @@
 
 {% block content %}
 
-    <hr>
-    <button id="home" class="btn btn-primary">Back to Home</button>
+<div class="container-fluid">
 
-        {% if visit %}
-        <div>
-            <h2>Add Books for: {{ visit.user.fname }} {{ visit.user.lname}}
-        </div>
-        {% endif%}
-
-    <div>
-        <h3>Book Search</h3>
-        <form id="book-search" action="/find-books", method="GET">
-            <div class="form-group">
-                Search for:
-                <br>Title<input id="search-title" class="form-control" type="text" name="title" placeholder="title">
-                <br>Author<input id="search-author" class="form-control" type="text" name="author" placeholder="author">
-                <br>Call Number<input id="search-callnum" class="form-control" type="text" name='call-number' placeholder="call number">
-                <br><button class="btn btn-primary" type="submit">Search Books</button>
-
-            </div>
-        </form>
+    <div class="row">
+        <div class="col-xs-6 col-md-4"><button id="home" class="btn btn-primary">Back to Home</button></div>
     </div>
 
-        <div>
-            <ul id="result-book-list"></ul>
+
+</div>
+
+    <hr>
+
+        {% if visit %}
+    <div class="container-fluid admin-view">
+            <h2>Add Books for: {{ visit.user.fname }} {{ visit.user.lname}}</h2>
+
+        {% endif%}
+
+        <div class="row">
+            <h3>Search by:</h3>
+            <form id="book-search" action="/find-books", method="GET">
+                <div class="form-group">
+                    <label>Title</label><input id="search-title" class="form-control" type="text" name="title" placeholder="title"><br>
+                    <label>Author</label><input id="search-author" class="form-control" type="text" name="author" placeholder="author"><br>
+                    <label>Call Number</label><input id="search-callnum" class="form-control" type="text" name='call-number' placeholder="call number">
+
+                </div>
+                <button class="btn btn-primary" type="submit">Search Books</button>
+            </form>
         </div>
+
+                <div>
+            <ul id="result-book-list" class="list-group"></ul>
+        </div>
+    </div><!-- container-fluid -->
+
+
+ 
+
+
+
+
+
 
         <span id="visit-id">{{ visit.visit_id }}</span>
     <script src="http://code.jquery.com/jquery.js"></script>

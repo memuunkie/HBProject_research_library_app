@@ -3,20 +3,23 @@
 
 {% block content %}
 
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-xs-6 col-md-4"><button id="home" class="btn btn-primary">Back to Home</button></div>
+    </div>
+</div>
     <hr>
-    <button id="home" class="btn btn-primary">Back to Home</button>
 
         {% if visit %}
-        <div>
-            <h2>Return Books for: {{ visit.user.fname }} {{ visit.user.lname}}
-        </div>
+        <div class="container-fluid admin-view">
+            <h2>Return Books for: {{ visit.user.fname }} {{ visit.user.lname}}</h2>
+
+            <div class="row">
 
         {% endif%}
 
         {% if visit_items %}
-        <div>
-            <h3>Books Outstanding</h3>
-        </div>
 
             <div>
                 <h3 id="message"></h3>
@@ -27,8 +30,8 @@
                 <ul id="outstanding-books"></ul>
             </div>
 
-
-
+                    </div>
+                    </div>
 
         {% else %}
 

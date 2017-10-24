@@ -2,25 +2,26 @@
 
 
 {% block content %}
-<div class="container-fluid">
-    <hr>
-    <div class="page-header">
-        <h1>Library Admin Dashboard</h1>
-    </div>
 
-    <div> <!-- Display visitors currently checked in -->
-        <h3>Today's Visitors</h3>
-        <!-- Uses displayCurrentVisitors and getCurrentVisitors in JS -->
-        <button id="display-visits" class="btn btn-primary">Current Visitors</button> 
+    <div class="container-fluid admin-view">
+        <hr>
+        <div class="page-header">
+            <h1>Library Admin Dashboard</h1>
+        </div>
+        <div class="row admin-view"> <!-- Display visitors currently checked in -->
+            <h3>Today's Visitors</h3>
+            <!-- Uses displayCurrentVisitors and getCurrentVisitors in JS -->
+            <button id="display-visits" class="btn btn-primary">Current Visitors</button> 
 
-        <div id="msg-bad"></div>
+            <strong><div id="msg-bad"></div></strong>
 
-        <div>
-            <ul id="current-visitors"></ul>
+            <div>
+                <ul id="current-visitors" class="list-group"></ul>
+            </div>
         </div>
     </div>
 
-    <div class="container-fluid">
+    <div class="container-fluid admin-view">
         <div class="row">
             <!-- Create a Visit -->
         <h3>Visitor Check-In</h3>
@@ -28,33 +29,37 @@
             <!-- Sends form data as GET -->
             <!-- Uses showUserResults and displayuserResults in JS -->
             <div class="form-group">
-                Search by:
+                <b>Search by:</b>
+                <br>
+                <br>
                 <!-- Queries 'users' table in DB -->
-                <br>Email:<input id="search-email" class="form-control" type="text" name="email" placeholder="email">
-                <br>First Name:<input id="search-fname"class="form-control" type="text" name="fname" placeholder="first name">
-                <br>Last Name:<input id="search-lname"class="form-control" type="text" name="lname" placeholder="last name">
+                <label>Email:</label><input id="search-email" class="form-control" type="text" name="email" placeholder="email"><br>
+                <label>First Name:</label><input id="search-fname"class="form-control" type="text" name="fname" placeholder="first name"><br>
+                <label>Last Name</label><input id="search-lname"class="form-control" type="text" name="lname" placeholder="last name">
             </div>
                 <button class="btn btn-primary" type="submit">Search Users</button>
         </form>
         </div> <!-- row -->
-    </div> <!-- container-fluid -->
 
         <div id='visit-msg'></div>
-            <ul id="result-user-list"></ul>
+            <ul id="result-user-list" class="list-group"></ul>
+    </div> <!-- container-fluid -->
 
 
     <hr>
-        <div id="new-user">
+    <div class="container-fluid admin-view">
+
+        <div id="new-user" class="row">
             <h3>Register New User</h3>
             <form id="add-user" action="/add-user" method="POST">
                 <!-- Sends form data as POST -->
                 <!-- Uses showUserResults and displayuserResults in JS -->
                 <div class="form-group">
                     <!-- Queries 'users' table in DB -->
-                    <br>First Name:<input id="add-fname"class="form-control" type="text" name="fname" placeholder="first name" required>
-                    <br>Last Name:<input id="add-lname"class="form-control" type="text" name="lname" placeholder="last name" required>
-                    <br>Email:<input id="add-email" class="form-control" type="email" name="email" placeholder="email" required>
-                    <br>User type
+                   <label>First Name:</label><input id="add-fname"class="form-control" type="text" name="fname" placeholder="first name" required><br>
+                    <label>Last Name</label><input id="add-lname"class="form-control" type="text" name="lname" placeholder="last name" required><br>
+                    <label>Email:</label><input id="add-email" class="form-control" type="email" name="email" placeholder="email" required><br>
+                    <label>User Type:</label>
                     <select name="type">
                         <option value='user'>User</option>
                         <option value='admin'>Admin</option>
@@ -65,9 +70,8 @@
         </div>
 
         <div id='register-msg'></div>
-
+    </div>
     <hr>
-</div>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/static/library-functions.js"></script>
 {% endblock %}

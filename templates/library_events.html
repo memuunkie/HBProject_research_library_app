@@ -8,28 +8,31 @@
     <div class="row">
         <div class="col-xs-6 col-md-4"><button id="home" class="btn btn-primary">Back to Home</button></div>
     </div>
-    <h1>Appointments</h1>
+
+
+</div>
 
     <hr>
 
     {% if user == 'ADMIN' %}
 
-    <div class="container-fluid">
+    <div class="container-fluid admin-view">
 
-    <div class="row">
-        <h4>Appointment requests from Patrons</h4>
+        <div class="row">
+            <h4>Appointment requests from Patrons</h4>
 
-            <p>Review unconfirmed appointment requests and make those patient people happy.</p>
+                <p>Review unconfirmed appointment requests and make those patient people happy.</p>
 
-            <button id="display-appts" class="btn btn-primary">View Requests</button>
+                <button id="display-appts" class="btn btn-primary">View Requests</button>
+            <div id="msg-bad"></div>
+
+            <div>
+                <ul id="appt-requests"></ul>
+            </div>
         </div>
     </div>
 
-    <div id="msg-bad"></div>
 
-    <div>
-        <ul id="appt-requests"></ul>
-    </div>
 
     {% endif %}
 
@@ -37,38 +40,45 @@
 
 
     {% if user == 'USER' %}
-    <div class="container-fluid">
-
+    <div class="container-fluid user-view">
+        <div class="row"><h1>Appointments</h1></div>
         <div class="row info-block">
             <p><b>Need help with research or locating something in our archives?
             </b></p>
             <p>Request to work one-on-one with one of our researchers or archivists. Choose an available appointment time below.*</p>
 
-            <h5>*If you have an appointment request that is waiting for approval, you cannot request another appointment.</h5>
+            <p><i>*If you have an appointment request that is waiting for approval, you cannot request another appointment.</i></p>
         </div>
-    </div>
+
+
+        <div class="row user-view">
         {% if events %}
             
-            <div id="appt-block">
+            <div id="appt-block"></div>
+
+            <div>
                 <form id="appt-selection-list" action="/appointment" method="POST">
                     <h3 id="remove-me">Available Appointment Times:</h3>
+                    <br>
                     <div class="form-group">
                 {% for event in events %}
-
-                    <input type="radio" name='appt' value="{{ event['htmlLink'] }}">
-                    {{ event['title']}}<br>
-                {% endfor %}
+                        <div class='radio'>
+                            <label><input type="radio" name='appt' value="{{ event['htmlLink'] }}">
+                            {{ event['title']}}</label>
+                            {% endfor %}
+                        </div>
                     </div>
                 <br><button class="btn btn-primary" type="submit">Request Appointment</button>                 
                 </form>
-            </div>
 
         {% else %}
 
             <h4>No appointments available</h4>
 
         {% endif %}
+        </div>
     </div>
+
     {% else %}
 
     <div id="new-event">

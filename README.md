@@ -14,7 +14,6 @@ Install the requirements to your enviroment.
 
 ```
 $ pip install -r requirements.txt
-
 ```
 
 Google credentials should be set to an environmental variable.
@@ -34,7 +33,6 @@ To initialize:
 ```
 $ createdb [name of db]
 $ python seed.py
-
 ```
 
 Modify the ```model.py``` helper function ```connect_to_db()``` where the ```app.config['SQLALCHEMY_DATABASE_URI']``` point to your database name.
@@ -43,16 +41,16 @@ Books loaded to database should be saved to a .CSV file with no headers. User da
 
 ## Tech Stack
 
-Python
-SQLAlchemy
-Javascript
-Flask
-PostgreSQL
-Jinja
-jQuery
-AJAX
-Bootstrap
-HTML/CSS
+* Python
+* SQLAlchemy
+* Javascript
+* Flask
+* PostgreSQL
+* Jinja
+* jQuery
+* AJAX
+* Bootstrap
+* HTML/CSS
 
 ## APIs Used
 
@@ -61,4 +59,4 @@ HTML/CSS
 
 ## Developer
 
-Lives in San Francisco. (Gots the LinkedIn, too.)(https://www.linkedin.com/in/myrnaalcaide)
+Lives in San Francisco. [Gots the LinkedIn, too.](https://www.linkedin.com/in/myrnaalcaide)

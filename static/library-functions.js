@@ -164,7 +164,8 @@ function displayCurrentVisitors(results) {
     var visitorList = $("#current-visitors");
 
     // clear out the past visitor list
-    $("#msg-bad").empty();
+    $("#msg-bad").empty().removeClass('alert-warning');
+    $("#msg-bad").removeClass('alert');
     visitorList.empty();
     // check data
 
@@ -487,6 +488,6 @@ function formatDate(date) {
         return hour + ':' + min;
     };
 
-    return date + ' ' + time(hour, minutes);
-
+    // return date + ' ' + time(hour, minutes);
+    return date;
 }

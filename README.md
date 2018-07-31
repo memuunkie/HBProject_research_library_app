@@ -1,6 +1,10 @@
 # The RLP
 
-Designed with research libraries and archives in mind, the RLP is a web application for library staff to easily manage day-to-day front desk  operations. Staffers can log in and handle visitor check-in and check-out, track resources loaned to visitors, handle appointment requests and register new visitors. 
+Designed with research libraries and archives in mind, the RLP is a web application for library staff to easily manage day-to-day front desk  operations. Staffers can log in and handle visitor check-in and check-out, track resources loaned to visitors, handle appointment requests and register new visitors.
+
+Library staff can easily look up resources and associate it to a visitor.
+
+<a href="https://gifs.com/gif/L8rg5g"><img src="https://j.gifs.com/L8rg5g.gif" title="Lookup book and add"></a>
 
 The system checks to make sure that a visitor does not have any unreturned items before check out.
 

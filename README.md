@@ -4,7 +4,7 @@ Designed with research libraries and archives in mind, the RLP is a web applicat
 
 Library staff can easily look up resources and associate it to a visitor.
 
-<a href="https://gifs.com/gif/L8rg5g"><img src="https://j.gifs.com/L8rg5g.gif" title="Lookup book and add"></a>
+<img src="https://j.gifs.com/L8rg5g.gif" title="Lookup book and add">
 
 The system checks to make sure that a visitor does not have any unreturned items before check out.
 

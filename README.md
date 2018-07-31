@@ -8,7 +8,7 @@ Library staff can easily look up resources and associate it to a visitor.
 
 The system checks to make sure that a visitor does not have any unreturned items before check out.
 
-<a href="https://gifs.com/gif/E9klPk"><img src="https://j.gifs.com/E9klPk.gif" title="Checkout denied"></a>
+<img src="https://j.gifs.com/E9klPk.gif" title="Checkout denied">
 
 The app also allows for limited log in privileges for visitors to quickly look up their past reference materials and make appointment requests with library staff.
 

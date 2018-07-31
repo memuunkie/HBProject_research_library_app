@@ -16,6 +16,8 @@ The system checks to make sure that a visitor does not have any unreturned items
 
 The app also allows for limited log in privileges for visitors to quickly look up their past reference materials and make appointment requests with library staff.
 
+<img src="https://j.gifs.com/RoAgw0.gif" title="Visitor log in view">
+
 ## Getting Started
 
 How to quickly get this sucker up and running on your local for development and testing.

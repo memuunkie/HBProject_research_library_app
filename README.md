@@ -8,6 +8,8 @@ Visitor check-in is easy, as well as seeing a list of all visitors currently che
 
 <img src="https://gph.is/2BLhwUO" title="Checkin visitor">
 
+<div style="width:100%;height:0;padding-bottom:51%;position:relative;"><iframe src="https://giphy.com/embed/pOTF0pwczuoiJbMuhz" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div><p><a href="https://giphy.com/gifs/visitor-check-in-pOTF0pwczuoiJbMuhz">via GIPHY</a></p>
+
 Library staff can easily look up resources and associate it to a visitor.
 
 <img src="https://j.gifs.com/L8rg5g.gif" title="Lookup book and add">

@@ -4,11 +4,7 @@ Designed with research libraries and archives in mind, the RLP is a web applicat
 
 Visitor check-in is easy, as well as seeing a list of all visitors currently checked in.
 
-![Alt Text](https://gph.is/2BLhwUO)
-
-<img src="https://gph.is/2BLhwUO" title="Checkin visitor">
-
-<iframe src="https://giphy.com/embed/pOTF0pwczuoiJbMuhz" width="480" height="244" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/visitor-check-in-pOTF0pwczuoiJbMuhz">via GIPHY</a></p>
+<img src="https://media.giphy.com/media/pOTF0pwczuoiJbMuhz/giphy.gif" title="Checkin visitor">
 
 Library staff can easily look up resources and associate it to a visitor.
 

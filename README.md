@@ -8,15 +8,19 @@ Visitor check-in is easy, as well as seeing a list of all visitors currently che
 
 Library staff can easily look up resources and associate it to a visitor.
 
-<img src="https://j.gifs.com/L8rg5g.gif" title="Lookup book and add">
+<img src="https://media.giphy.com/media/ZOiWJJmtQM2hOHVts8/giphy.gif" title="Lookup book and add">
 
 The system checks to make sure that a visitor does not have any unreturned items before check out.
 
-<img src="https://j.gifs.com/E9klPk.gif" title="Checkout denied">
+<img src="https://media.giphy.com/media/39n73NT1VBwqgoy46o/giphy.gif" title="Checkout denied">
+
+Staff can quickly see what items are associated with a visitor and verify it has been returned.
+
+<img src="https://media.giphy.com/media/1lyPdGQspPPiK9IHLC/giphy.gif" title="Book returned">
 
 The app also allows for limited log in privileges for visitors to quickly look up their past reference materials and make appointment requests with library staff.
 
-<img src="https://j.gifs.com/RoAgw0.gif" title="Visitor log in view">
+<img src="https://media.giphy.com/media/1o1okaCGqxW8iy5SXM/giphy.gif" title="Visitor log in view">
 
 ## Getting Started
 
